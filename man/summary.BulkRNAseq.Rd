@@ -4,10 +4,12 @@
 \alias{summary.BulkRNAseq}
 \title{Summary of BulkRNAseq Object}
 \usage{
-\method{summary}{BulkRNAseq}(object)
+\method{summary}{BulkRNAseq}(object, ...)
 }
 \arguments{
 \item{object}{A BulkRNAseq object}
+
+\item{...}{Additional arguments (for S3 method compatibility)}
 }
 \value{
 Invisibly returns a list with summary information

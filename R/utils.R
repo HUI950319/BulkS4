@@ -1,3 +1,5 @@
+#' @importFrom methods is
+
 #' @title Get Counts Matrix
 #' @description Extract the raw counts matrix from BulkRNAseq object
 #' 
@@ -7,7 +9,7 @@
 #' @export
 getCounts <- function(object) {
   if (!inherits(object, "BulkRNAseq")) {
-    stop("object必须是BulkRNAseq类型", call. = FALSE)
+    stop("object must be a BulkRNAseq object", call. = FALSE)
   }
   return(object@counts)
 }
@@ -21,7 +23,7 @@ getCounts <- function(object) {
 #' @export
 getData <- function(object) {
   if (!inherits(object, "BulkRNAseq")) {
-    stop("object必须是BulkRNAseq类型", call. = FALSE)
+    stop("object must be a BulkRNAseq object", call. = FALSE)
   }
   return(object@data)
 }
@@ -35,7 +37,7 @@ getData <- function(object) {
 #' @export
 getMetadata <- function(object) {
   if (!inherits(object, "BulkRNAseq")) {
-    stop("object必须是BulkRNAseq类型", call. = FALSE)
+    stop("object must be a BulkRNAseq object", call. = FALSE)
   }
   return(object@metadata)
 }
@@ -51,14 +53,14 @@ getMetadata <- function(object) {
 #' @export
 getDiffResults <- function(object, name = NULL) {
   if (!inherits(object, "BulkRNAseq")) {
-    stop("object必须是BulkRNAseq类型", call. = FALSE)
+    stop("object must be a BulkRNAseq object", call. = FALSE)
   }
   
   if (is.null(name)) {
     return(object@allDiff)
   } else {
     if (!name %in% names(object@allDiff)) {
-      stop("差异分析结果中不存在名为 '", name, "' 的结果", call. = FALSE)
+      stop("Differential analysis result '", name, "' not found", call. = FALSE)
     }
     return(object@allDiff[[name]])
   }
@@ -75,14 +77,14 @@ getDiffResults <- function(object, name = NULL) {
 #' @export
 getGeneSets <- function(object, name = NULL) {
   if (!inherits(object, "BulkRNAseq")) {
-    stop("object必须是BulkRNAseq类型", call. = FALSE)
+    stop("object must be a BulkRNAseq object", call. = FALSE)
   }
   
   if (is.null(name)) {
     return(object@geneSet)
   } else {
     if (!name %in% names(object@geneSet)) {
-      stop("基因集中不存在名为 '", name, "' 的基因集", call. = FALSE)
+      stop("Gene set '", name, "' not found", call. = FALSE)
     }
     return(object@geneSet[[name]])
   }
@@ -98,22 +100,22 @@ getGeneSets <- function(object, name = NULL) {
 #' @export
 setData <- function(object, data) {
   if (!inherits(object, "BulkRNAseq")) {
-    stop("object必须是BulkRNAseq类型", call. = FALSE)
+    stop("object must be a BulkRNAseq object", call. = FALSE)
   }
   
   if (!is.matrix(data)) {
     data <- as.matrix(data)
   }
   
-  # 验证维度一致性
+  # Validate dimension consistency
   if (!identical(dim(data), dim(object@counts))) {
-    stop("新数据矩阵的维度必须与原始counts矩阵一致", call. = FALSE)
+    stop("New data matrix dimensions must match original counts matrix", call. = FALSE)
   }
   
-  # 验证行名和列名一致性
+  # Validate row and column names consistency
   if (!identical(rownames(data), rownames(object@counts)) ||
       !identical(colnames(data), colnames(object@counts))) {
-    stop("新数据矩阵的行名和列名必须与原始counts矩阵一致", call. = FALSE)
+    stop("New data matrix row and column names must match original counts matrix", call. = FALSE)
   }
   
   object@data <- data
@@ -131,11 +133,11 @@ setData <- function(object, data) {
 #' @export
 addDiffResults <- function(object, results, name) {
   if (!inherits(object, "BulkRNAseq")) {
-    stop("object必须是BulkRNAseq类型", call. = FALSE)
+    stop("object must be a BulkRNAseq object", call. = FALSE)
   }
   
   if (missing(name) || is.null(name) || name == "") {
-    stop("必须提供结果名称", call. = FALSE)
+    stop("Result name must be provided", call. = FALSE)
   }
   
   object@allDiff[[name]] <- results
@@ -146,15 +148,16 @@ addDiffResults <- function(object, results, name) {
 #' @description Provide a detailed summary of BulkRNAseq object contents
 #' 
 #' @param object A BulkRNAseq object
+#' @param ... Additional arguments (for S3 method compatibility)
 #' 
 #' @return Invisibly returns a list with summary information
 #' @export
-summary.BulkRNAseq <- function(object) {
+summary.BulkRNAseq <- function(object, ...) {
   if (!inherits(object, "BulkRNAseq")) {
-    stop("object必须是BulkRNAseq类型", call. = FALSE)
+    stop("object must be a BulkRNAseq object", call. = FALSE)
   }
   
-  # 收集摘要信息
+  # Collect summary information
   summary_info <- list(
     n_genes = nrow(object@counts),
     n_samples = ncol(object@counts),
@@ -165,16 +168,16 @@ summary.BulkRNAseq <- function(object) {
     gsva_results = names(object@gsva)
   )
   
-  # 打印摘要
-  cat("BulkRNAseq对象摘要:\n")
-  cat("==================\n")
-  cat("基因数量:", summary_info$n_genes, "\n")
-  cat("样本数量:", summary_info$n_samples, "\n")
-  cat("元数据变量:", length(summary_info$metadata_vars), "个\n")
-  cat("差异分析结果:", length(summary_info$diff_analyses), "个\n")
-  cat("基因集:", length(summary_info$gene_sets), "个\n")
-  cat("GSEA结果:", length(summary_info$gsea_results), "个\n")
-  cat("GSVA结果:", length(summary_info$gsva_results), "个\n")
+  # Print summary
+  cat("BulkRNAseq Object Summary:\n")
+  cat("========================\n")
+  cat("Genes:", summary_info$n_genes, "\n")
+  cat("Samples:", summary_info$n_samples, "\n")
+  cat("Metadata variables:", length(summary_info$metadata_vars), "\n")
+  cat("Differential analyses:", length(summary_info$diff_analyses), "\n")
+  cat("Gene sets:", length(summary_info$gene_sets), "\n")
+  cat("GSEA results:", length(summary_info$gsea_results), "\n")
+  cat("GSVA results:", length(summary_info$gsva_results), "\n")
   
   invisible(summary_info)
 } 

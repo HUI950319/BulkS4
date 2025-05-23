@@ -1,3 +1,6 @@
+#' @importFrom methods setMethod new
+#' @importFrom cli col_blue
+
 #' @title Extract Metadata Columns
 #' @description Extract columns from metadata using $ operator
 #' 
@@ -12,7 +15,7 @@
 #' # bulk_obj$condition  # Extract condition column
 setMethod("$", "BulkRNAseq", function(x, name) {
   if (!name %in% colnames(x@metadata)) {
-    stop("\u5217\u540d '", name, "' \u5728metadata\u4e2d\u4e0d\u5b58\u5728", call. = FALSE)
+    stop("Column '", name, "' not found in metadata", call. = FALSE)
   }
   return(x@metadata[[name]])
 })
@@ -25,64 +28,64 @@ setMethod("$", "BulkRNAseq", function(x, name) {
 #' @return Invisibly returns the object (for method chaining)
 #' @export
 setMethod("show", "BulkRNAseq", function(object) {
-  # \u521b\u5efa\u5206\u9694\u7ebf
+  # Create separator line
   sep_line <- paste(rep("-", 50), collapse = "")
   
-  # \u6253\u5370\u6807\u9898\u548c\u57fa\u672c\u4fe1\u606f
-  cat("\n", cli::col_blue("====== BulkRNAseq\u5bf9\u8c61 ======"), "\n\n")
+  # Print title and basic information
+  cat("\n", cli::col_blue("====== BulkRNAseq Object ======"), "\n\n")
   
-  # \u6253\u5370\u57fa\u672c\u7edc\u8ba1\u4fe1\u606f
-  cat(sprintf("%-15s %d\n", "\u57fa\u56e0\u6570\u91cf:", nrow(object@counts)))
-  cat(sprintf("%-15s %d\n", "\u6837\u672c\u6570\u91cf:", ncol(object@counts)))
+  # Print basic statistics
+  cat(sprintf("%-15s %d\n", "Genes:", nrow(object@counts)))
+  cat(sprintf("%-15s %d\n", "Samples:", ncol(object@counts)))
   
-  # \u6253\u5370\u5143\u6570\u636e\u4fe1\u606f
+  # Print metadata information
   meta_vars <- if (ncol(object@metadata) > 0) {
     paste(colnames(object@metadata), collapse = ", ")
   } else {
-    "\u65e0"
+    "None"
   }
-  cat(sprintf("%-15s %s\n", "\u5143\u6570\u636e\u53d8\u91cf:", meta_vars))
+  cat(sprintf("%-15s %s\n", "Metadata vars:", meta_vars))
   
-  # \u6253\u5370\u5206\u6790\u7ed3\u679c\u4fe1\u606f
-  cat("\n", cli::col_blue("------ \u5206\u6790\u7ed3\u679c ------"), "\n\n")
+  # Print analysis results information
+  cat("\n", cli::col_blue("------ Analysis Results ------"), "\n\n")
   
-  # \u5dee\u5f02\u5206\u6790\u7ed3\u679c
+  # Differential analysis results
   diff_count <- length(object@allDiff)
   diff_names <- if (diff_count > 0) {
     paste(names(object@allDiff), collapse = ", ")
   } else {
-    "\u65e0"
+    "None"
   }
-  cat(sprintf("%-15s %d\u4e2a: %s\n", "\u5dee\u5f02\u5206\u6790\u7ed3\u679c:", diff_count, diff_names))
+  cat(sprintf("%-15s %d: %s\n", "Diff analyses:", diff_count, diff_names))
   
-  # \u57fa\u56e0\u96c6\u4fe1\u606f
+  # Gene set information
   geneset_count <- length(object@geneSet)
   geneset_names <- if (geneset_count > 0) {
     paste(names(object@geneSet), collapse = ", ")
   } else {
-    "\u65e0"
+    "None"
   }
-  cat(sprintf("%-15s %d\u4e2a: %s\n", "\u57fa\u56e0\u96c6:", geneset_count, geneset_names))
+  cat(sprintf("%-15s %d: %s\n", "Gene sets:", geneset_count, geneset_names))
   
-  # \u5bcc\u96c6\u5206\u6790\u7ed3\u679c
+  # Enrichment analysis results
   gsea_count <- length(object@gsea)
   gsea_names <- if (gsea_count > 0) {
     paste(names(object@gsea), collapse = ", ")
   } else {
-    "\u65e0"
+    "None"
   }
-  cat(sprintf("%-15s %d\u4e2a: %s\n", "GSEA\u7ed3\u679c:", gsea_count, gsea_names))
+  cat(sprintf("%-15s %d: %s\n", "GSEA results:", gsea_count, gsea_names))
   
-  # GSVA\u7ed3\u679c
+  # GSVA results
   gsva_count <- length(object@gsva)
   gsva_names <- if (gsva_count > 0) {
     paste(names(object@gsva), collapse = ", ")
   } else {
-    "\u65e0"
+    "None"
   }
-  cat(sprintf("%-15s %d\u4e2a: %s\n", "GSVA\u7ed3\u679c:", gsva_count, gsva_names))
+  cat(sprintf("%-15s %d: %s\n", "GSVA results:", gsva_count, gsva_names))
   
-  # \u7ed3\u675f\u5206\u9694\u7ebf
+  # End separator line
   cat("\n", sep_line, "\n")
   
   invisible(object)
@@ -132,21 +135,21 @@ setMethod("colnames", "BulkRNAseq", function(x) {
 #' @return A subsetted BulkRNAseq object
 #' @export
 setMethod("[", "BulkRNAseq", function(x, i, j, drop = FALSE) {
-  # \u5904\u7406\u7f3a\u5931\u7684\u7d22\u5f15
+  # Handle missing indices
   if (missing(i)) i <- seq_len(nrow(x@counts))
   if (missing(j)) j <- seq_len(ncol(x@counts))
   
-  # \u5b50\u96c6\u5316\u6570\u636e
+  # Subset data
   new_counts <- x@counts[i, j, drop = FALSE]
   new_data <- x@data[i, j, drop = FALSE]
   new_metadata <- x@metadata[j, , drop = FALSE]
   
-  # \u521b\u5efa\u65b0\u5bf9\u8c61
+  # Create new object
   new("BulkRNAseq",
       counts = new_counts,
       data = new_data,
       metadata = new_metadata,
-      allDiff = x@allDiff,  # \u4fdd\u7559\u539f\u6709\u5206\u6790\u7ed3\u679c
+      allDiff = x@allDiff,  # Keep original analysis results
       geneSet = x@geneSet,
       gsea = x@gsea,
       gsva = x@gsva)

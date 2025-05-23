@@ -10,10 +10,13 @@ Authors@R: c(
     )
   )
 Description: Provides S4 classes and methods for comprehensive bulk RNA-seq data analysis,
-    including differential expression analysis, gene set enrichment analysis (GSEA),
-    and gene set variation analysis (GSVA). The package offers a unified framework
-    for storing and analyzing bulk RNA-seq data with associated metadata.
-License: MIT
+    including differential expression analysis using DESeq2, edgeR, and limma-voom,
+    gene set enrichment analysis (GSEA), and gene set variation analysis (GSVA). 
+    The package offers a unified framework for storing and analyzing bulk RNA-seq 
+    data with associated metadata, supporting multiple analysis workflows and 
+    comparison of different methods. Includes curated gene sets from MSigDB and 
+    example datasets for demonstration and testing.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
@@ -21,6 +24,20 @@ Depends:
     R (>= 4.0.0)
 Imports:
     methods,
-    cli
+    cli,
+    GSVA,
+    clusterProfiler,
+    limma
 Suggests:
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    DESeq2,
+    edgeR,
+    biomaRt,
+    SummarizedExperiment,
+    org.Hs.eg.db,
+    msigdbr,
+    GEOquery,
+    usethis,
+    devtools,
+    pbapply,
+    parallel

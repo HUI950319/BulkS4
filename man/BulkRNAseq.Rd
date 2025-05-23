@@ -7,10 +7,10 @@
 BulkRNAseq(counts, metadata = NULL, add_msig.geneSet = TRUE)
 }
 \arguments{
-\item{counts}{A matrix or data.frame of raw counts, or a list containing 
+\item{counts}{A matrix or data.frame of raw counts, or a list containing
 required fields (counts, metadata, exprSet, allDiff)}
 
-\item{metadata}{A data.frame with sample metadata. If NULL, an empty 
+\item{metadata}{A data.frame with sample metadata. If NULL, an empty
 data.frame will be created}
 
 \item{add_msig.geneSet}{Logical. Whether to add MSigDB gene sets to the object}
