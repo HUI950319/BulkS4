@@ -1,163 +1,235 @@
 # BulkS4: S4 Classes for Bulk RNA-seq Data Analysis
 
-## 概述
+## Overview
 
-BulkS4是一个R包，提供了用于bulk RNA-seq数据分析的S4类和方法。该包设计用于存储和分析bulk RNA-seq数据，包括差异表达分析、基因集富集分析(GSEA)和基因集变异分析(GSVA)。
+BulkS4 is an R package that provides S4 classes and methods for bulk RNA-seq data analysis. The package is designed to store, analyze, and visualize bulk RNA-seq data, including differential expression analysis (using DESeq2, edgeR, limma-voom), gene set enrichment analysis (GSEA), and gene set variation analysis (GSVA).
 
-## 主要特性
+## Key Features
 
-- **BulkRNAseq S4类**: 统一的数据结构，用于存储原始计数、标准化数据、样本元数据和分析结果
-- **数据验证**: 内置的数据一致性检查和验证机制
-- **灵活的构造函数**: 支持从矩阵或预处理的列表创建对象
-- **丰富的方法**: 提供完整的访问器和操作方法
-- **MSigDB集成**: 自动加载MSigDB基因集（可选）
+- **BulkRNAseq S4 Class**: Unified data structure for storing raw counts, normalized data, sample metadata, and analysis results
+- **Data Validation**: Built-in data consistency checks and validation mechanisms
+- **Flexible Constructor**: Support for creating objects from matrices or preprocessed lists
+- **Rich Methods**: Complete set of accessor and manipulation methods
+- **MSigDB Integration**: Automatic loading of MSigDB gene sets (optional)
+- **Differential Expression Analysis**: Integrated support for DESeq2, edgeR, and limma-voom
+- **Gene Set Analysis**: GSEA and GSVA analysis capabilities
 
-## 安装
+## Installation
 
 ```r
-# 从本地安装
-devtools::install_local("path/to/BulkS4")
+# Install from local source
+# devtools::install_local("path/to/BulkS4")
 
-# 或者如果包在GitHub上
-# devtools::install_github("username/BulkS4")
+# the package is on GitHub
+devtools::install_github("HUI950319/BulkS4")
 ```
 
-## 快速开始
+## Quick Start
 
-### 创建BulkRNAseq对象
+### Load Example Data
 
 ```r
 library(BulkS4)
 
-# 创建示例数据
-counts_mat <- matrix(rpois(1000, 10), nrow = 100, ncol = 10)
-rownames(counts_mat) <- paste0("Gene", 1:100)
-colnames(counts_mat) <- paste0("Sample", 1:10)
+# Load example datasets included in the package
+data(counts)      # Example RNA-seq count matrix
+data(metadata)    # Example sample metadata
+data(geneSet_msig) # MSigDB gene sets
 
-metadata <- data.frame(
-  condition = rep(c("Control", "Treatment"), each = 5),
-  batch = rep(c("Batch1", "Batch2"), times = 5),
-  row.names = colnames(counts_mat)
-)
-
-# 创建BulkRNAseq对象
-bulk_obj <- BulkRNAseq(counts_mat, metadata)
+# Examine the example data
+head(counts)
+head(metadata)
+length(geneSet_msig)
 ```
 
-### 基本操作
+### Creating BulkRNAseq Objects
 
 ```r
-# 查看对象
+# Create BulkRNAseq object from example data
+bulk_obj <- BulkRNAseq(counts, metadata)
+
+# Or create without MSigDB gene sets
+bulk_obj <- BulkRNAseq(counts, metadata, add_msig.geneSet = FALSE)
+```
+
+### Basic Operations
+
+```r
+# View object summary
 bulk_obj
 
-# 获取维度
+# Get dimensions
 dim(bulk_obj)
 
-# 获取基因名和样本名
+# Get gene and sample names
 rownames(bulk_obj)
 colnames(bulk_obj)
 
-# 访问元数据列
+# Access metadata columns
 bulk_obj$condition
 
-# 子集化
-subset_obj <- bulk_obj[1:50, 1:5]  # 前50个基因，前5个样本
+# Subsetting
+subset_obj <- bulk_obj[1:100, 1:5]  # First 100 genes, first 5 samples
 ```
 
-### 数据访问
+### Data Access
 
 ```r
-# 获取原始计数矩阵
-counts <- getCounts(bulk_obj)
+# Get raw count matrix
+raw_counts <- getCounts(bulk_obj)
 
-# 获取标准化数据矩阵
-data <- getData(bulk_obj)
+# Get normalized data matrix
+norm_data <- getData(bulk_obj)
 
-# 获取元数据
-metadata <- getMetadata(bulk_obj)
+# Get metadata
+sample_meta <- getMetadata(bulk_obj)
 
-# 获取差异分析结果（如果有）
+# Get differential analysis results (if available)
 diff_results <- getDiffResults(bulk_obj)
+
+# Get gene sets
+gene_sets <- getGeneSets(bulk_obj)
 ```
 
-### 数据设置
+### Data Manipulation
 
 ```r
-# 设置标准化数据
-normalized_data <- log2(counts_mat + 1)  # 简单的log2转换
+# Set normalized data
+normalized_data <- log2(getCounts(bulk_obj) + 1)  # Simple log2 transformation
 bulk_obj <- setData(bulk_obj, normalized_data)
 
-# 添加差异分析结果
+# Add differential analysis results
 diff_result <- data.frame(
-  gene = rownames(counts_mat)[1:10],
+  gene = rownames(counts)[1:10],
   logFC = rnorm(10),
-  pvalue = runif(10),
-  padj = runif(10)
+  pvalue = runif(10, 0, 0.05),
+  padj = runif(10, 0, 0.05)
 )
 bulk_obj <- addDiffResults(bulk_obj, diff_result, "Control_vs_Treatment")
 ```
 
-### 从预处理列表创建对象
+### Differential Expression Analysis
 
 ```r
-# 如果你有预处理的数据列表
-data_list <- list(
-  counts = counts_mat,
-  metadata = metadata,
-  exprSet = log2(counts_mat + 1),
-  allDiff = diff_result
-)
+# Run differential expression analysis using multiple methods
+bulk_obj <- runDiffAnalysis(bulk_obj, 
+                           group_col = "condition",
+                           methods = c("DESeq2", "edgeR", "limma"))
 
-bulk_obj2 <- BulkRNAseq(data_list)
+# Compare methods
+comparison <- compareDiffMethods(bulk_obj)
+
+# Extract results
+deseq2_results <- extractDiffResults(bulk_obj, method = "DESeq2")
 ```
 
-## S4类结构
+### Gene Set Analysis
 
-### BulkRNAseq类的插槽(Slots)
+```r
+# Run GSEA analysis
+bulk_obj <- gsea(bulk_obj, 
+                group_col = "condition",
+                gene_sets = "hallmark")
 
-- `counts`: 原始计数矩阵（基因 × 样本）
-- `data`: 标准化数据矩阵（基因 × 样本）
-- `metadata`: 样本元数据（data.frame，行名为样本名）
-- `allDiff`: 差异分析结果列表
-- `geneSet`: 基因集列表（用于GSEA/GSVA）
-- `gsea`: GSEA分析结果列表
-- `gsva`: GSVA分析结果列表
+# Run GSVA analysis  
+bulk_obj <- gsva(bulk_obj,
+                gene_sets = "hallmark",
+                method = "gsva")
 
-### 可用方法
+# Get analysis summary
+summary(bulk_obj)
+```
 
-- `show()`: 显示对象摘要
-- `dim()`: 获取矩阵维度
-- `rownames()`, `colnames()`: 获取行名和列名
-- `$`: 访问元数据列
-- `[`: 子集化对象
-- `summary()`: 详细摘要信息
+## S4 Class Structure
 
-## 最佳实践
+### BulkRNAseq Class Slots
 
-1. **数据一致性**: 确保计数矩阵的列名与元数据的行名一致
-2. **基因名**: 使用标准的基因符号作为行名
-3. **元数据**: 包含所有相关的实验设计信息
-4. **标准化**: 在分析前适当标准化数据
-5. **文档**: 为分析结果添加有意义的名称
+- `counts`: Raw count matrix (genes × samples)
+- `data`: Normalized data matrix (genes × samples)  
+- `metadata`: Sample metadata (data.frame with sample names as rownames)
+- `allDiff`: List of differential analysis results
+- `geneSet`: List of gene sets for GSEA/GSVA analysis
+- `gsea`: List of GSEA analysis results
+- `gsva`: List of GSVA analysis results
 
-## 依赖
+### Available Methods
 
+- `show()`: Display object summary
+- `dim()`: Get matrix dimensions
+- `rownames()`, `colnames()`: Get row and column names
+- `$`: Access metadata columns
+- `[`: Subset objects
+- `summary()`: Detailed summary information
+
+## Example Datasets
+
+The package includes several example datasets:
+
+- **counts**: Example RNA-seq count matrix with gene expression data
+- **metadata**: Sample metadata with experimental conditions and batch information
+- **geneSet_msig**: Curated gene sets from the Molecular Signatures Database (MSigDB)
+
+```r
+# Explore example data
+data(counts)
+dim(counts)          # Check dimensions
+head(rownames(counts))  # View gene names
+
+data(metadata) 
+str(metadata)        # Check metadata structure
+table(metadata$condition)  # View experimental groups
+
+data(geneSet_msig)
+length(geneSet_msig)     # Number of gene sets
+names(geneSet_msig)[1:5] # First few gene set names
+```
+
+## Best Practices
+
+1. **Data Consistency**: Ensure count matrix column names match metadata row names
+2. **Gene Names**: Use standard gene symbols as row names
+3. **Metadata**: Include all relevant experimental design information
+4. **Normalization**: Properly normalize data before analysis
+5. **Documentation**: Add meaningful names to analysis results
+6. **Quality Control**: Check data quality before proceeding with analysis
+
+## Dependencies
+
+### Required
 - R (>= 4.0.0)
 - methods
 - cli
+- GSVA
+- clusterProfiler
+- limma
 
-## 许可证
+### Suggested
+- DESeq2
+- edgeR
+- biomaRt
+- SummarizedExperiment
+- org.Hs.eg.db
+- msigdbr
+
+## License
 
 MIT License
 
-## 贡献
+## Contributing
 
-欢迎提交问题和拉取请求。
+Issues and pull requests are welcome.
 
-## 更新日志
+## Changelog
+
+### v0.1.1
+- Added comprehensive differential expression analysis
+- Integrated GSEA and GSVA functionality
+- Enhanced S4 class with additional slots
+- Improved data validation and error handling
+- Added example datasets
 
 ### v0.1.0
-- 初始版本
-- 基本的BulkRNAseq S4类
-- 核心方法和实用函数
-- MSigDB基因集集成 
+- Initial release
+- Basic BulkRNAseq S4 class
+- Core methods and utility functions
+- MSigDB gene set integration 
