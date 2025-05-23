@@ -3,11 +3,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">BulkS4</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,16 +15,17 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html" aria-label="Home"><span class="fa fa-home"></span></a></li>
+<li class="nav-item"><a class="nav-link" href="../articles/getting-started.html">Get Started</a></li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/differential-analysis.html">Differential Expression Analysis with BulkS4</a></li>
-    <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started with BulkS4</a></li>
-    <li><a class="dropdown-item" href="../articles/visualization.html">Visualization with BulkS4</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials"><li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started</a></li>
+    <li><a class="dropdown-item" href="../articles/differential-analysis.html">Differential Expression Analysis</a></li>
+    <li><a class="dropdown-item" href="../articles/visualization.html">Visualization</a></li>
   </ul></li>
-      </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
- <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/HUI950319/BulkS4/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
+      </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/HUI950319/BulkS4" aria-label="GitHub"><span class="fa fab fa-github"></span></a></li>
       </ul></div>
 
 
@@ -37,9 +38,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="s-classes">S4 Classes<a class="anchor" aria-label="anchor" href="#s-classes"></a></h2>
 
-
+      <div class="section-desc"><p>Core S4 class definitions and constructors</p></div>
 
 
     </div><div class="section level2">
@@ -48,18 +49,6 @@
 
 
       <dl><dt>
-
-          <code><a href="addDiffResults.html">addDiffResults()</a></code>
-
-        </dt>
-        <dd>Add Differential Analysis Results</dd>
-      </dl><dl><dt>
-
-          <code><a href="bar.html">bar()</a></code>
-
-        </dt>
-        <dd>Bar Plots for Gene Expression</dd>
-      </dl><dl><dt>
 
           <code><a href="BulkRNAseq-class.html">BulkRNAseq-class</a></code>
 
@@ -71,55 +60,18 @@
 
         </dt>
         <dd>Create BulkRNAseq Object</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
+      <h2 id="data-access-methods">Data Access Methods<a class="anchor" aria-label="anchor" href="#data-access-methods"></a></h2>
 
-          <code><a href="cash-BulkRNAseq-method.html">`$`(<i>&lt;BulkRNAseq&gt;</i>)</a></code>
+      <div class="section-desc"><p>Methods for accessing and manipulating data</p></div>
 
-        </dt>
-        <dd>Extract Metadata Columns</dd>
-      </dl><dl><dt>
 
-          <code><a href="colnames-BulkRNAseq-method.html">colnames(<i>&lt;BulkRNAseq&gt;</i>)</a></code>
+    </div><div class="section level2">
 
-        </dt>
-        <dd>Get Column Names</dd>
-      </dl><dl><dt>
 
-          <code><a href="compareDiffMethods.html">compareDiffMethods()</a></code>
 
-        </dt>
-        <dd>Compare Multiple Differential Expression Methods</dd>
-      </dl><dl><dt>
 
-          <code><a href="convert_genes.html">convert_genes()</a></code>
-
-        </dt>
-        <dd>Convert Gene IDs in Expression Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="dedup_genes.html">dedup_genes()</a></code>
-
-        </dt>
-        <dd>Remove Duplicate Genes from Expression Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="dim-BulkRNAseq-method.html">dim(<i>&lt;BulkRNAseq&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Get Dimensions</dd>
-      </dl><dl><dt>
-
-          <code><a href="extractDiffResults.html">extractDiffResults()</a></code>
-
-        </dt>
-        <dd>Extract Differential Expression Results</dd>
-      </dl><dl><dt>
-
-          <code><a href="getAnalysisSummary.html">getAnalysisSummary()</a></code>
-
-        </dt>
-        <dd>Get Analysis Summary</dd>
-      </dl><dl><dt>
+      <dl><dt>
 
           <code><a href="getCounts.html">getCounts()</a></code>
 
@@ -131,6 +83,12 @@
 
         </dt>
         <dd>Get Normalized Data Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="getMetadata.html">getMetadata()</a></code>
+
+        </dt>
+        <dd>Get Metadata</dd>
       </dl><dl><dt>
 
           <code><a href="getDiffResults.html">getDiffResults()</a></code>
@@ -145,40 +103,39 @@
         <dd>Get Gene Sets</dd>
       </dl><dl><dt>
 
-          <code><a href="getMetadata.html">getMetadata()</a></code>
+          <code><a href="setData.html">setData()</a></code>
 
         </dt>
-        <dd>Get Metadata</dd>
+        <dd>Set Normalized Data</dd>
       </dl><dl><dt>
 
-          <code><a href="gsea.html">gsea()</a></code>
+          <code><a href="addDiffResults.html">addDiffResults()</a></code>
 
         </dt>
-        <dd>Gene Set Enrichment Analysis (GSEA) for BulkRNAseq Objects</dd>
+        <dd>Add Differential Analysis Results</dd>
+      </dl></div><div class="section level2">
+      <h2 id="s-methods">S4 Methods<a class="anchor" aria-label="anchor" href="#s-methods"></a></h2>
+
+      <div class="section-desc"><p>Standard S4 methods for BulkRNAseq objects</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="show-BulkRNAseq-method.html">show(<i>&lt;BulkRNAseq&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Show BulkRNAseq Object</dd>
       </dl><dl><dt>
 
-          <code><a href="gsva.html">gsva()</a></code>
+          <code><a href="dim-BulkRNAseq-method.html">dim(<i>&lt;BulkRNAseq&gt;</i>)</a></code>
 
         </dt>
-        <dd>Gene Set Variation Analysis (GSVA) for BulkRNAseq Objects</dd>
-      </dl><dl><dt>
-
-          <code><a href="hmap.html">hmap()</a></code>
-
-        </dt>
-        <dd>Heatmap Visualization</dd>
-      </dl><dl><dt>
-
-          <code><a href="MA.html">MA()</a></code>
-
-        </dt>
-        <dd>MA Plot</dd>
-      </dl><dl><dt>
-
-          <code><a href="pca_hc.html">pca_hc()</a></code>
-
-        </dt>
-        <dd>PCA and Hierarchical Clustering Plot</dd>
+        <dd>Get Dimensions</dd>
       </dl><dl><dt>
 
           <code><a href="rownames-BulkRNAseq-method.html">rownames(<i>&lt;BulkRNAseq&gt;</i>)</a></code>
@@ -187,10 +144,63 @@
         <dd>Get Row Names</dd>
       </dl><dl><dt>
 
+          <code><a href="colnames-BulkRNAseq-method.html">colnames(<i>&lt;BulkRNAseq&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Get Column Names</dd>
+      </dl><dl><dt>
+
+          <code><a href="summary.BulkRNAseq.html">summary(<i>&lt;BulkRNAseq&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Summary of BulkRNAseq Object</dd>
+      </dl><dl><dt>
+
+          <code><a href="sub-BulkRNAseq-ANY-ANY-ANY-method.html">`[`(<i>&lt;BulkRNAseq&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Subset BulkRNAseq Object</dd>
+      </dl><dl><dt>
+
+          <code><a href="cash-BulkRNAseq-method.html">`$`(<i>&lt;BulkRNAseq&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Extract Metadata Columns</dd>
+      </dl></div><div class="section level2">
+      <h2 id="differential-expression-analysis">Differential Expression Analysis<a class="anchor" aria-label="anchor" href="#differential-expression-analysis"></a></h2>
+
+      <div class="section-desc"><p>Functions for differential expression analysis</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
           <code><a href="runDiffAnalysis.html">runDiffAnalysis()</a></code>
 
         </dt>
         <dd>Run Differential Expression Analysis on BulkRNAseq Object</dd>
+      </dl><dl><dt>
+
+          <code><a href="compareDiffMethods.html">compareDiffMethods()</a></code>
+
+        </dt>
+        <dd>Compare Multiple Differential Expression Methods</dd>
+      </dl><dl><dt>
+
+          <code><a href="extractDiffResults.html">extractDiffResults()</a></code>
+
+        </dt>
+        <dd>Extract Differential Expression Results</dd>
+      </dl><dl><dt>
+
+          <code><a href="getAnalysisSummary.html">getAnalysisSummary()</a></code>
+
+        </dt>
+        <dd>Get Analysis Summary</dd>
       </dl><dl><dt>
 
           <code><a href="run_DESeq2.html">run_DESeq2()</a></code>
@@ -209,46 +219,104 @@
 
         </dt>
         <dd>Run limma-voom Differential Expression Analysis</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
+      <h2 id="gene-set-analysis">Gene Set Analysis<a class="anchor" aria-label="anchor" href="#gene-set-analysis"></a></h2>
 
-          <code><a href="setData.html">setData()</a></code>
+      <div class="section-desc"><p>Functions for gene set enrichment and variation analysis</p></div>
 
-        </dt>
-        <dd>Set Normalized Data</dd>
-      </dl><dl><dt>
 
-          <code><a href="show-BulkRNAseq-method.html">show(<i>&lt;BulkRNAseq&gt;</i>)</a></code>
+    </div><div class="section level2">
 
-        </dt>
-        <dd>Show BulkRNAseq Object</dd>
-      </dl><dl><dt>
 
-          <code><a href="sub-BulkRNAseq-ANY-ANY-ANY-method.html">`[`(<i>&lt;BulkRNAseq&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>,<i>&lt;ANY&gt;</i>)</a></code>
 
-        </dt>
-        <dd>Subset BulkRNAseq Object</dd>
-      </dl><dl><dt>
 
-          <code><a href="summary.BulkRNAseq.html">summary(<i>&lt;BulkRNAseq&gt;</i>)</a></code>
+      <dl><dt>
+
+          <code><a href="gsea.html">gsea()</a></code>
 
         </dt>
-        <dd>Summary of BulkRNAseq Object</dd>
+        <dd>Gene Set Enrichment Analysis (GSEA) for BulkRNAseq Objects</dd>
+      </dl><dl><dt>
+
+          <code><a href="gsva.html">gsva()</a></code>
+
+        </dt>
+        <dd>Gene Set Variation Analysis (GSVA) for BulkRNAseq Objects</dd>
+      </dl></div><div class="section level2">
+      <h2 id="visualization-methods">Visualization Methods<a class="anchor" aria-label="anchor" href="#visualization-methods"></a></h2>
+
+      <div class="section-desc"><p>Functions for creating plots and visualizations</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="bar.html">bar()</a></code>
+
+        </dt>
+        <dd>Bar Plots for Gene Expression</dd>
+      </dl><dl><dt>
+
+          <code><a href="hmap.html">hmap()</a></code>
+
+        </dt>
+        <dd>Heatmap Visualization</dd>
       </dl><dl><dt>
 
           <code><a href="volcano.html">volcano()</a></code>
 
         </dt>
         <dd>Volcano Plot</dd>
+      </dl><dl><dt>
+
+          <code><a href="MA.html">MA()</a></code>
+
+        </dt>
+        <dd>MA Plot</dd>
+      </dl><dl><dt>
+
+          <code><a href="pca_hc.html">pca_hc()</a></code>
+
+        </dt>
+        <dd>PCA and Hierarchical Clustering Plot</dd>
+      </dl></div><div class="section level2">
+      <h2 id="utility-functions">Utility Functions<a class="anchor" aria-label="anchor" href="#utility-functions"></a></h2>
+
+      <div class="section-desc"><p>Helper functions for data processing</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="dedup_genes.html">dedup_genes()</a></code>
+
+        </dt>
+        <dd>Remove Duplicate Genes from Expression Matrix</dd>
+      </dl><dl><dt>
+
+          <code><a href="convert_genes.html">convert_genes()</a></code>
+
+        </dt>
+        <dd>Convert Gene IDs in Expression Matrix</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Hui Ouyang.</p>
+  <p>Developed by <a href="https://github.com/HUI950319" class="external-link">Hui Ouyang</a>. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>BulkS4 v0.1.1</p>
 </div>
 
     </footer></div>
