@@ -99,7 +99,7 @@ setMethod("bar", "BulkRNAseq", function(object,
 .plot_single_gene <- function(expr_data, gene_name, palette, method) {
   comparisons <- list(rev(levels(expr_data$group)))
 
-  gggpubr::ggboxplot(
+  ggpubr::ggboxplot(
     expr_data,
     x = "group",
     y = gene_name,
@@ -107,7 +107,7 @@ setMethod("bar", "BulkRNAseq", function(object,
     palette = palette,
     add = "jitter"
   ) +
-    gggpubr::stat_compare_means(
+    ggpubr::stat_compare_means(
       comparisons = comparisons,
       method = method
     ) +
