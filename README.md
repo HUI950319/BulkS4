@@ -1,30 +1,45 @@
 # BulkS4: S4 Classes for Bulk RNA-seq Data Analysis
 
+<!-- badges: start -->
+[![R build status](https://github.com/HUI950319/BulkS4/workflows/R-CMD-check/badge.svg)](https://github.com/HUI950319/BulkS4/actions)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-universe status badge](https://hui950319.r-universe.dev/badges/BulkS4)](https://hui950319.r-universe.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![pkgdown](https://github.com/HUI950319/BulkS4/workflows/pkgdown/badge.svg)](https://hui950319.github.io/BulkS4/)
+<!-- badges: end -->
+
 ## Overview
 
-BulkS4 is an R package that provides S4 classes and methods for bulk RNA-seq data analysis. The package is designed to store, analyze, and visualize bulk RNA-seq data, including differential expression analysis (using DESeq2, edgeR, limma-voom), gene set enrichment analysis (GSEA), and gene set variation analysis (GSVA).
+**BulkS4** is a comprehensive R package that provides S4 classes and methods for bulk RNA-seq data analysis. The package offers a unified framework for storing, analyzing, and visualizing bulk RNA-seq data with integrated support for:
 
-## Key Features
+- 🧬 **Differential Expression Analysis** using DESeq2, edgeR, and limma-voom
+- 📊 **Gene Set Enrichment Analysis (GSEA)** 
+- 🎯 **Gene Set Variation Analysis (GSVA)**
+- 📈 **Rich Visualization Tools** for publication-ready plots
+- 🗂️ **Integrated Data Management** with S4 classes
+
+## ✨ Key Features
 
 - **BulkRNAseq S4 Class**: Unified data structure for storing raw counts, normalized data, sample metadata, and analysis results
 - **Data Validation**: Built-in data consistency checks and validation mechanisms
 - **Flexible Constructor**: Support for creating objects from matrices or preprocessed lists
-- **Rich Methods**: Complete set of accessor and manipulation methods
-- **MSigDB Integration**: Automatic loading of MSigDB gene sets (optional)
-- **Differential Expression Analysis**: Integrated support for DESeq2, edgeR, and limma-voom
-- **Gene Set Analysis**: GSEA and GSVA analysis capabilities
+- **Rich Visualization**: Complete set of plotting functions for expression data, heatmaps, volcano plots, and more
+- **MSigDB Integration**: Automatic loading of MSigDB gene sets (Hallmark, KEGG, Reactome, GO)
+- **Multiple DE Methods**: Integrated support for DESeq2, edgeR, and limma-voom with method comparison
+- **Gene Set Analysis**: GSEA and GSVA analysis capabilities with multiple gene set collections
 
-## Installation
+## 📦 Installation
 
 ```r
-# Install from local source
-# devtools::install_local("path/to/BulkS4")
-
-# the package is on GitHub
+# Install from GitHub (recommended)
+if (!require("devtools")) install.packages("devtools")
 devtools::install_github("HUI950319/BulkS4")
+
+# Load the package
+library(BulkS4)
 ```
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Load Example Data
 
@@ -32,204 +47,358 @@ devtools::install_github("HUI950319/BulkS4")
 library(BulkS4)
 
 # Load example datasets included in the package
-data(counts)      # Example RNA-seq count matrix
+data(counts)      # Example RNA-seq count matrix (500 genes × 6 samples)
 data(metadata)    # Example sample metadata
 data(geneSet_msig) # MSigDB gene sets
 
 # Examine the example data
-head(counts)
+head(counts[, 1:4])
+#>           Cov1 Cov2 Cov3 Mock1
+#> CD36       156  142  123   89
+#> GAPDH     1245 1198 1356 1289
+#> ACTB      2134 2287 2156 2245
+#> GUSB       234  198  267  198
+
 head(metadata)
-length(geneSet_msig)
+#>       sample group
+#> Cov1    Cov1 treat
+#> Cov2    Cov2 treat
+#> Cov3    Cov3 treat
+#> Mock1  Mock1   con
 ```
 
-### Creating BulkRNAseq Objects
+### Create BulkRNAseq Object
 
 ```r
 # Create BulkRNAseq object from example data
 bulk_obj <- BulkRNAseq(counts, metadata)
 
-# Or create without MSigDB gene sets
-bulk_obj <- BulkRNAseq(counts, metadata, add_msig.geneSet = FALSE)
-```
-
-### Basic Operations
-
-```r
 # View object summary
 bulk_obj
+#> BulkRNAseq object with:
+#> - 500 genes and 6 samples
+#> - Metadata: 2 columns (sample, group)
+#> - Gene sets: 6 collections (18459 total sets)
+#> - Differential analysis: Not performed
+#> - GSEA results: Not available
+#> - GSVA results: Not available
 
-# Get dimensions
-dim(bulk_obj)
-
-# Get gene and sample names
-rownames(bulk_obj)
-colnames(bulk_obj)
-
-# Access metadata columns
-bulk_obj$condition
-
-# Subsetting
-subset_obj <- bulk_obj[1:100, 1:5]  # First 100 genes, first 5 samples
+# Set normalized data (log2 transformation)
+log_counts <- log2(getCounts(bulk_obj) + 1)
+bulk_obj <- setData(bulk_obj, log_counts)
 ```
 
-### Data Access
+## 📊 Visualization Examples
+
+BulkS4 provides comprehensive visualization functions for RNA-seq data analysis:
+
+### 1. Gene Expression Bar/Box Plots
 
 ```r
-# Get raw count matrix
-raw_counts <- getCounts(bulk_obj)
+# Single gene expression
+bar(bulk_obj, genes = "CD36", group = "group")
 
-# Get normalized data matrix
-norm_data <- getData(bulk_obj)
-
-# Get metadata
-sample_meta <- getMetadata(bulk_obj)
-
-# Get differential analysis results (if available)
-diff_results <- getDiffResults(bulk_obj)
-
-# Get gene sets
-gene_sets <- getGeneSets(bulk_obj)
+# Multiple genes
+bar(bulk_obj, genes = c("CD36", "GAPDH", "ACTB"), group = "group")
 ```
 
-### Data Manipulation
+### 2. Heatmaps
 
 ```r
-# Set normalized data
-normalized_data <- log2(getCounts(bulk_obj) + 1)  # Simple log2 transformation
-bulk_obj <- setData(bulk_obj, normalized_data)
+# Heatmap of specific genes
+selected_genes <- rownames(bulk_obj)[1:20]
+hmap(bulk_obj, genes = selected_genes, group = "group", 
+     show_rownames = TRUE, scale = "row")
 
-# Add differential analysis results
-diff_result <- data.frame(
-  gene = rownames(counts)[1:10],
-  logFC = rnorm(10),
-  pvalue = runif(10, 0, 0.05),
-  padj = runif(10, 0, 0.05)
-)
-bulk_obj <- addDiffResults(bulk_obj, diff_result, "Control_vs_Treatment")
+# Heatmap of top differential genes (after DE analysis)
+hmap(bulk_obj, genes = 15, group = "group", scale = "row")
 ```
 
-### Differential Expression Analysis
+### 3. Principal Component Analysis
 
 ```r
-# Run differential expression analysis using multiple methods
+# PCA with hierarchical clustering
+pca_hc(bulk_obj, k = 2, add_ellipses = TRUE)
+```
+
+## 🧬 Differential Expression Analysis
+
+Run comprehensive differential expression analysis with multiple methods:
+
+```r
+# Perform differential expression analysis
 bulk_obj <- runDiffAnalysis(bulk_obj, 
-                           group_col = "condition",
+                           group_col = "group",
                            methods = c("DESeq2", "edgeR", "limma"))
 
 # Compare methods
 comparison <- compareDiffMethods(bulk_obj)
+print(comparison$summary)
 
-# Extract results
+# Extract results from specific method
 deseq2_results <- extractDiffResults(bulk_obj, method = "DESeq2")
+head(deseq2_results)
 ```
 
-### Gene Set Analysis
+### Volcano Plot
 
 ```r
-# Run GSEA analysis
-bulk_obj <- gsea(bulk_obj, 
-                group_col = "condition",
-                gene_sets = "hallmark")
+# Create volcano plot
+volcano(bulk_obj, data = "allDiff", 
+        fc_threshold = 1, 
+        adj.P_value_threshold = 0.05,
+        highlight_fc_threshold = 2)
+```
 
-# Run GSVA analysis  
+### MA Plot
+
+```r
+# Create MA plot
+MA(bulk_obj, data = "allDiff",
+   fc_threshold = 1,
+   adj.P_value_threshold = 0.05)
+```
+
+## 🎯 Gene Set Analysis
+
+### Gene Set Enrichment Analysis (GSEA)
+
+```r
+# Run GSEA with Hallmark gene sets
+bulk_obj <- gsea(bulk_obj, 
+                group_col = "group",
+                gene_sets = "hallmark",
+                pvalueCutoff = 0.05)
+
+# View GSEA results
+gsea_results <- bulk_obj@gsea$hallmark
+head(gsea_results)
+```
+
+### Gene Set Variation Analysis (GSVA)
+
+```r
+# Run GSVA analysis
 bulk_obj <- gsva(bulk_obj,
                 gene_sets = "hallmark",
                 method = "gsva")
 
-# Get analysis summary
-summary(bulk_obj)
+# Visualize pathway scores
+pathway_names <- rownames(bulk_obj@gsva$hallmark)[1:10]
+bar(bulk_obj, data = "hallmark", genes = pathway_names, group = "group")
+
+# Heatmap of pathway activities
+hmap(bulk_obj, data = "hallmark", genes = 15, group = "group", scale = "row")
 ```
 
-## S4 Class Structure
+## 🗂️ S4 Class Structure
 
 ### BulkRNAseq Class Slots
 
-- `counts`: Raw count matrix (genes × samples)
-- `data`: Normalized data matrix (genes × samples)  
-- `metadata`: Sample metadata (data.frame with sample names as rownames)
-- `allDiff`: List of differential analysis results
-- `geneSet`: List of gene sets for GSEA/GSVA analysis
-- `gsea`: List of GSEA analysis results
-- `gsva`: List of GSVA analysis results
+| Slot | Type | Description |
+|------|------|-------------|
+| `counts` | matrix | Raw count matrix (genes × samples) |
+| `data` | matrix | Normalized data matrix (genes × samples) |
+| `metadata` | data.frame | Sample metadata with sample names as rownames |
+| `allDiff` | list | Differential analysis results from multiple methods |
+| `geneSet` | list | Gene sets for GSEA/GSVA analysis |
+| `gsea` | list | GSEA analysis results |
+| `gsva` | list | GSVA analysis results |
 
 ### Available Methods
 
-- `show()`: Display object summary
-- `dim()`: Get matrix dimensions
-- `rownames()`, `colnames()`: Get row and column names
-- `$`: Access metadata columns
-- `[`: Subset objects
-- `summary()`: Detailed summary information
+| Method | Description |
+|--------|-------------|
+| `show()` | Display object summary |
+| `dim()` | Get matrix dimensions |
+| `rownames()`, `colnames()` | Get row and column names |
+| `$` | Access metadata columns |
+| `[` | Subset objects |
+| `summary()` | Detailed summary information |
 
-## Example Datasets
+### Data Access Functions
 
-The package includes several example datasets:
+| Function | Purpose |
+|----------|---------|
+| `getCounts(obj)` | Get raw count matrix |
+| `getData(obj)` | Get normalized data matrix |
+| `getMetadata(obj)` | Get sample metadata |
+| `getDiffResults(obj)` | Get differential analysis results |
+| `getGeneSets(obj)` | Get gene sets |
 
-- **counts**: Example RNA-seq count matrix with gene expression data
-- **metadata**: Sample metadata with experimental conditions and batch information
-- **geneSet_msig**: Curated gene sets from the Molecular Signatures Database (MSigDB)
+## 📈 Visualization Gallery
+
+The package includes comprehensive visualization capabilities:
+
+### Expression Visualization
+- **Bar/Box plots**: Compare gene expression between groups
+- **Heatmaps**: Visualize expression patterns across samples and genes
+- **Violin plots**: Show expression distributions
+
+### Differential Expression Plots
+- **Volcano plots**: Visualize fold change vs significance
+- **MA plots**: Show average expression vs fold change
+- **Heatmaps**: Display differential gene expression patterns
+
+### Sample Relationship Plots
+- **PCA plots**: Principal component analysis with group information
+- **Hierarchical clustering**: Sample clustering dendrograms
+- **Sample correlation**: Correlation heatmaps
+
+### Gene Set Analysis Plots
+- **Pathway scores**: Bar plots of GSVA pathway activities
+- **Enrichment plots**: GSEA enrichment curves
+- **Network plots**: Gene set interaction networks
+
+## 📚 Example Datasets
+
+The package includes carefully curated example datasets:
+
+| Dataset | Description | Dimensions |
+|---------|-------------|------------|
+| `counts` | RNA-seq count matrix | 500 genes × 6 samples |
+| `metadata` | Sample metadata | 6 samples × 2 variables |
+| `geneSet_msig` | MSigDB gene sets | 6 collections, 18,459 sets |
 
 ```r
-# Explore example data
+# Explore example data structure
 data(counts)
-dim(counts)          # Check dimensions
-head(rownames(counts))  # View gene names
+dim(counts)                    # [1] 500   6
+class(counts)                  # [1] "matrix" "array"
 
-data(metadata) 
-str(metadata)        # Check metadata structure
-table(metadata$condition)  # View experimental groups
+data(metadata)
+str(metadata)
+# 'data.frame': 6 obs. of 2 variables:
+#  $ sample: chr [1:6] "Cov1" "Cov2" "Cov3" "Mock1" ...
+#  $ group : Factor w/ 2 levels "con","treat": 2 2 2 1 1 1
 
 data(geneSet_msig)
-length(geneSet_msig)     # Number of gene sets
-names(geneSet_msig)[1:5] # First few gene set names
+names(geneSet_msig)           # Gene set collections
+# [1] "hallmark" "kegg"     "reactome" "go_bp"    "go_cc"    "go_mf"
 ```
 
-## Best Practices
+## 💡 Best Practices
 
+### Data Preparation
 1. **Data Consistency**: Ensure count matrix column names match metadata row names
-2. **Gene Names**: Use standard gene symbols as row names
+2. **Gene Names**: Use standard gene symbols (HGNC) as row names
 3. **Metadata**: Include all relevant experimental design information
-4. **Normalization**: Properly normalize data before analysis
-5. **Documentation**: Add meaningful names to analysis results
-6. **Quality Control**: Check data quality before proceeding with analysis
+4. **Quality Control**: Remove low-count genes and check for batch effects
 
-## Dependencies
+### Analysis Workflow
+1. **Normalization**: Properly normalize data before analysis (log2, TPM, or method-specific)
+2. **Multiple Methods**: Compare results from different DE methods
+3. **Statistical Thresholds**: Use appropriate p-value and fold-change cutoffs
+4. **Gene Set Analysis**: Validate findings with pathway analysis
 
-### Required
-- R (>= 4.0.0)
-- methods
-- cli
-- GSVA
-- clusterProfiler
-- limma
+### Visualization
+1. **Consistent Colors**: Use consistent color schemes across plots
+2. **Clear Labels**: Include meaningful titles and axis labels
+3. **Statistical Annotation**: Add p-values and effect sizes where appropriate
+4. **Publication Quality**: Use high-resolution formats for final figures
 
-### Suggested
-- DESeq2
-- edgeR
-- biomaRt
+## 🔧 Advanced Usage
+
+### Custom Gene Sets
+
+```r
+# Create custom gene set
+custom_geneset <- list(
+  "DNA_REPAIR" = c("BRCA1", "BRCA2", "ATM", "TP53"),
+  "CELL_CYCLE" = c("CCND1", "CDK4", "RB1", "E2F1")
+)
+
+# Add to BulkRNAseq object
+bulk_obj@geneSet$custom <- custom_geneset
+
+# Run GSVA with custom gene sets
+bulk_obj <- gsva(bulk_obj, gene_sets = "custom")
+```
+
+### Batch Processing
+
+```r
+# Process multiple contrasts
+contrasts <- list(
+  "TreatmentA_vs_Control" = c("TreatmentA", "Control"),
+  "TreatmentB_vs_Control" = c("TreatmentB", "Control")
+)
+
+results_list <- lapply(contrasts, function(contrast) {
+  # Subset data for specific contrast
+  subset_meta <- metadata[metadata$group %in% contrast, ]
+  subset_counts <- counts[, subset_meta$sample]
+  
+  # Create object and analyze
+  obj <- BulkRNAseq(subset_counts, subset_meta)
+  obj <- runDiffAnalysis(obj, group_col = "group", methods = "DESeq2")
+  return(obj)
+})
+```
+
+## 📋 Dependencies
+
+### Required Packages
+- R (≥ 4.0.0)
+- methods, cli
+- GSVA, clusterProfiler, limma
+- dplyr, tidyr, ggplot2
+
+### Suggested Packages
+- DESeq2, edgeR, biomaRt
 - SummarizedExperiment
-- org.Hs.eg.db
-- msigdbr
+- org.Hs.eg.db, msigdbr
+- pheatmap, ggpubr, viridis
+- factoextra, ggsci, patchwork
 
-## License
+## 📖 Documentation
 
-MIT License
+- **Package Website**: https://hui950319.github.io/BulkS4/
+- **Getting Started**: [Vignette](https://hui950319.github.io/BulkS4/articles/getting-started.html)
+- **Differential Analysis**: [Tutorial](https://hui950319.github.io/BulkS4/articles/differential-analysis.html)
+- **Visualization Guide**: [Examples](https://hui950319.github.io/BulkS4/articles/visualization.html)
 
-## Contributing
+## 🤝 Contributing
 
-Issues and pull requests are welcome.
+We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.md) for details.
 
-## Changelog
+- **Bug Reports**: [GitHub Issues](https://github.com/HUI950319/BulkS4/issues)
+- **Feature Requests**: [GitHub Discussions](https://github.com/HUI950319/BulkS4/discussions)
+- **Pull Requests**: [GitHub PRs](https://github.com/HUI950319/BulkS4/pulls)
 
-### v0.1.1
-- Added comprehensive differential expression analysis
-- Integrated GSEA and GSVA functionality
-- Enhanced S4 class with additional slots
-- Improved data validation and error handling
-- Added example datasets
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## 🙏 Citation
+
+If you use BulkS4 in your research, please cite:
+
+```r
+citation("BulkS4")
+```
+
+## 📝 Changelog
+
+### v0.1.1 (Current)
+- ✨ Added comprehensive visualization functions (`bar`, `hmap`, `volcano`, `MA`, `pca_hc`)
+- 🧬 Enhanced differential expression analysis with method comparison
+- 🎯 Integrated GSEA and GSVA functionality
+- 📊 Improved S4 class with additional slots and validation
+- 📚 Added comprehensive documentation and vignettes
+- 🔧 Enhanced data validation and error handling
 
 ### v0.1.0
-- Initial release
-- Basic BulkRNAseq S4 class
-- Core methods and utility functions
-- MSigDB gene set integration 
+- 🎉 Initial release
+- 📦 Basic BulkRNAseq S4 class
+- 🛠️ Core methods and utility functions
+- 🗂️ MSigDB gene set integration
+
+---
+
+<div align="center">
+  <strong>Built with ❤️ for the R community</strong><br>
+  <a href="https://hui950319.github.io/BulkS4/">📖 Documentation</a> •
+  <a href="https://github.com/HUI950319/BulkS4/issues">🐛 Report Bug</a> •
+  <a href="https://github.com/HUI950319/BulkS4/discussions">💬 Discussion</a>
+</div> 

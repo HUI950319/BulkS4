@@ -1,0 +1,11 @@
+pandoc: 3.6.4
+pkgdown: 2.1.1
+pkgdown_sha: ~
+articles:
+  differential-analysis: differential-analysis.html
+  getting-started: getting-started.html
+  visualization: visualization.html
+last_built: 2025-05-23T13:46Z
+urls:
+  reference: https://hui950319.github.io/BulkS4/reference
+  article: https://hui950319.github.io/BulkS4/articles
