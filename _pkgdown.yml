@@ -1,4 +1,132 @@
 url: https://hui950319.github.io/BulkS4/
 template:
   bootstrap: 5
+  bootswatch: flatly
+  theme: arrow-light
+  bslib:
+    primary: "#0054AD"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
+
+home:
+  title: "BulkS4: S4 Classes for Bulk RNA-seq Data Analysis"
+  description: >
+    A comprehensive R package for bulk RNA-seq data analysis using S4 classes.
+    Supports differential expression analysis, gene set enrichment analysis (GSEA),
+    and gene set variation analysis (GSVA).
+
+navbar:
+  title: "BulkS4"
+  left:
+    - icon: fa-home
+      href: index.html
+      aria-label: Home
+    - text: "Get Started"
+      href: articles/getting-started.html
+    - text: "Tutorials"
+      menu:
+        - text: "Getting Started"
+          href: articles/getting-started.html
+        - text: "Differential Expression Analysis"
+          href: articles/differential-analysis.html
+        - text: "Visualization"
+          href: articles/visualization.html
+    - text: "Reference"
+      href: reference/index.html
+    - text: "News"
+      href: news/index.html
+  right:
+    - icon: fab fa-github
+      href: https://github.com/HUI950319/BulkS4
+      aria-label: GitHub
+
+reference:
+  - title: "S4 Classes"
+    desc: "Core S4 class definitions and constructors"
+    contents:
+      - BulkRNAseq-class
+      - BulkRNAseq
+
+  - title: "Data Access Methods"
+    desc: "Methods for accessing and manipulating data"
+    contents:
+      - getCounts
+      - getData
+      - getMetadata
+      - getDiffResults
+      - getGeneSets
+      - setData
+      - addDiffResults
+
+  - title: "S4 Methods"
+    desc: "Standard S4 methods for BulkRNAseq objects"
+    contents:
+      - show,BulkRNAseq-method
+      - dim,BulkRNAseq-method
+      - rownames,BulkRNAseq-method
+      - colnames,BulkRNAseq-method
+      - summary.BulkRNAseq
+      - "[,BulkRNAseq,ANY,ANY,ANY-method"
+      - "$,BulkRNAseq-method"
+
+  - title: "Differential Expression Analysis"
+    desc: "Functions for differential expression analysis"
+    contents:
+      - runDiffAnalysis
+      - compareDiffMethods
+      - extractDiffResults
+      - getAnalysisSummary
+      - run_DESeq2
+      - run_edgeR
+      - run_limma_voom
+
+  - title: "Gene Set Analysis"
+    desc: "Functions for gene set enrichment and variation analysis"
+    contents:
+      - gsea
+      - gsva
+
+  - title: "Visualization Methods"
+    desc: "Functions for creating plots and visualizations"
+    contents:
+      - bar
+      - hmap
+      - volcano
+      - MA
+      - pca_hc
+
+  - title: "Utility Functions"
+    desc: "Helper functions for data processing"
+    contents:
+      - dedup_genes
+      - convert_genes
+
+articles:
+  - title: "Getting Started"
+    navbar: ~
+    contents:
+      - getting-started
+
+  - title: "Tutorials"
+    desc: "Step-by-step guides for common analyses"
+    contents:
+      - getting-started
+      - differential-analysis
+      - visualization
+
+authors:
+  Hui Ouyang:
+    href: https://github.com/HUI950319
+
+footer:
+  structure:
+    left: [developed_by, built_with]
+    right: [package]
+  components:
+    package: "BulkS4 v0.1.1"
+
+development:
+  mode: auto
+  version_label: default
+  version_tooltip: "Version"
 

@@ -175,7 +175,7 @@ BulkRNAseq <- function(counts, metadata = NULL, add_msig.geneSet = TRUE) {
     # Load the geneSet_msig dataset from the package data
     # This will load the geneSet_msig object into the current environment
     data("geneSet_msig", envir = environment())
-    
+
     # Check if the object was loaded successfully
     if (exists("geneSet_msig", envir = environment())) {
       object@geneSet <- get("geneSet_msig", envir = environment())
@@ -185,7 +185,7 @@ BulkRNAseq <- function(counts, metadata = NULL, add_msig.geneSet = TRUE) {
     }
   }, error = function(e) {
     warning("Error loading geneSet_msig from package data: ", e$message, call. = FALSE)
-  })
+})
 
   return(object)
 }
