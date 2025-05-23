@@ -15,6 +15,23 @@
 ">
 <meta property="og:description" content="A comprehensive R package for bulk RNA-seq data analysis using S4 classes. Supports differential expression analysis, gene set enrichment analysis (GSEA), and gene set variation analysis (GSVA).
 ">
+<style>
+.navbar-brand, .navbar-nav .nav-link {
+  color: #ffffff !important;
+}
+.navbar-brand:hover, .navbar-nav .nav-link:hover {
+  color: #e6f3ff !important;
+}
+.navbar {
+  background-color: #0054AD !important;
+}
+.navbar-toggler {
+  border-color: #ffffff;
+}
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+</style>
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -103,7 +120,7 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"HUI950319/BulkS4"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Load the package</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">BulkS4</span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hui950319.github.io/BulkS4/">BulkS4</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="rocket-quick-start">🚀 Quick Start<a class="anchor" aria-label="anchor" href="#rocket-quick-start"></a>
@@ -112,7 +129,7 @@
 <h3 id="load-example-data">Load Example Data<a class="anchor" aria-label="anchor" href="#load-example-data"></a>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">BulkS4</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hui950319.github.io/BulkS4/">BulkS4</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Load example datasets included in the package</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span>      <span class="co"># Example RNA-seq count matrix (500 genes × 6 samples)</span></span>
