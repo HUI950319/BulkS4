@@ -39,8 +39,8 @@ Convert gene IDs in expression matrix using clusterProfiler or biomaRt
 \dontrun{
 # Create example expression matrix
 expr_matrix <- matrix(rpois(60, 10), nrow = 6, ncol = 10)
-rownames(expr_matrix) <- c("ENSG00000223972", "ENSG00000227232", 
-                          "ENSG00000278267", "ENSG00000243485", 
+rownames(expr_matrix) <- c("ENSG00000223972", "ENSG00000227232",
+                          "ENSG00000278267", "ENSG00000243485",
                           "ENSG00000284332", "ENSG00000237613")
 colnames(expr_matrix) <- paste0("Sample", 1:10)
 

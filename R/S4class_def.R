@@ -171,29 +171,21 @@ BulkRNAseq <- function(counts, metadata = NULL, add_msig.geneSet = TRUE) {
 #' @return BulkRNAseq object with gene sets added
 #' @keywords internal
 .add_msigdb_genesets <- function(object) {
-  # Determine path based on operating system
-  geneSet_path <- if (Sys.info()["sysname"] == "Linux") {
-    "/mnt/e/0.scRNA/guozi/0.resource/geneSet_msig.RData"
-  } else {
-    "E:/0.scRNA/guozi/0.resource/geneSet_msig.RData"
-  }
-
-  # Check if file exists and load
-  if (file.exists(geneSet_path)) {
-    tryCatch({
-      load(geneSet_path, envir = environment())
-      if (exists("geneSet_msig", envir = environment())) {
-        object@geneSet <- get("geneSet_msig", envir = environment())
-        message("Successfully loaded MSigDB gene sets")
-      } else {
-        warning("geneSet_msig object not found in gene set file", call. = FALSE)
-      }
-    }, error = function(e) {
-      warning("Error loading gene set file: ", e$message, call. = FALSE)
-    })
-  } else {
-    warning("Cannot find gene set file: ", geneSet_path, call. = FALSE)
-  }
+  tryCatch({
+    # Load the geneSet_msig dataset from the package data
+    # This will load the geneSet_msig object into the current environment
+    data("geneSet_msig", envir = environment())
+    
+    # Check if the object was loaded successfully
+    if (exists("geneSet_msig", envir = environment())) {
+      object@geneSet <- get("geneSet_msig", envir = environment())
+      message("Successfully loaded MSigDB gene sets from package data")
+    } else {
+      warning("geneSet_msig object not found in package data", call. = FALSE)
+    }
+  }, error = function(e) {
+    warning("Error loading geneSet_msig from package data: ", e$message, call. = FALSE)
+  })
 
   return(object)
 }
