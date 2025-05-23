@@ -37,14 +37,14 @@ create_msigdbr_args <- function(collections, species = "Homo sapiens") {
     
     # Handle empty subcollections
     if (is.na(subcollection) || subcollection == "") {
-      subcollection <- NULL
-    }
-    
+    subcollection <- NULL
+  }
+
     args_list[[i]] <- list(
       species = species,
       category = collection,
       subcategory = subcollection
-    )
+  )
   }
   
   # Create meaningful names for the list

@@ -307,3 +307,4 @@ getAnalysisSummary <- function(object, fc_cutoff = 1, padj_cutoff = 0.05) {
 
   return(summary_df)
 }
+ 
