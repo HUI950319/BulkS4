@@ -1,0 +1,135 @@
+---
+title: "Getting Started with BulkS4"
+author: "Hui Ouyang"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
+vignette: >
+  %\VignetteIndexEntry{Getting Started with BulkS4}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5
+)
+```
+
+## Introduction
+
+BulkS4 is a comprehensive R package designed for bulk RNA-seq data analysis using S4 classes. This package provides a unified framework for storing, analyzing, and visualizing bulk RNA-seq data, including:
+
+- Differential expression analysis using DESeq2, edgeR, and limma-voom
+- Gene set enrichment analysis (GSEA)
+- Gene set variation analysis (GSVA)
+- Integrated data management with S4 classes
+
+## Installation
+
+```{r eval=FALSE}
+# Install from GitHub
+devtools::install_github("HUI950319/BulkS4")
+```
+
+## Loading the Package
+
+```{r}
+library(BulkS4)
+```
+
+## Quick Start
+
+### Loading Example Data
+
+BulkS4 comes with example datasets that you can use to get started:
+
+```{r}
+# Load example datasets
+data(counts)      # RNA-seq count matrix
+data(metadata)    # Sample metadata
+data(geneSet_msig) # MSigDB gene sets
+
+# Examine the data
+head(counts[, 1:6])
+head(metadata)
+```
+
+### Creating a BulkRNAseq Object
+
+The core of BulkS4 is the `BulkRNAseq` S4 class, which stores all your RNA-seq data and analysis results:
+
+```{r}
+# Create BulkRNAseq object
+bulk_obj <- BulkRNAseq(counts, metadata)
+
+# View the object
+bulk_obj
+```
+
+### Basic Operations
+
+```{r}
+# Get dimensions
+dim(bulk_obj)
+
+# Get gene and sample names
+head(rownames(bulk_obj))
+colnames(bulk_obj)
+
+# Access metadata columns
+head(bulk_obj$condition)
+```
+
+### Data Access
+
+```{r}
+# Get raw counts
+raw_counts <- getCounts(bulk_obj)
+dim(raw_counts)
+
+# Get normalized data (initially same as counts)
+norm_data <- getData(bulk_obj)
+
+# Get metadata
+sample_meta <- getMetadata(bulk_obj)
+str(sample_meta)
+```
+
+### Data Manipulation
+
+```{r}
+# Set normalized data (log2 transformation)
+log_counts <- log2(getCounts(bulk_obj) + 1)
+bulk_obj <- setData(bulk_obj, log_counts)
+
+# Verify the change
+head(getData(bulk_obj)[, 1:3])
+```
+
+### Subsetting
+
+```{r}
+# Subset to first 100 genes and first 6 samples
+subset_obj <- bulk_obj[1:100, 1:6]
+dim(subset_obj)
+```
+
+## Next Steps
+
+Now that you've learned the basics, you can explore more advanced features:
+
+- **Differential Expression Analysis**: See the "Differential Expression Analysis" tutorial
+- **Gene Set Analysis**: See the "Gene Set Analysis" tutorial
+- **Advanced Usage**: See the "Basic Usage" tutorial for more detailed examples
+
+## Session Information
+
+```{r}
+sessionInfo()
+``` 

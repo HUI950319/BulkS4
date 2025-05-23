@@ -17,10 +17,13 @@ Description: Provides S4 classes and methods for comprehensive bulk RNA-seq data
     comparison of different methods. Includes curated gene sets from MSigDB and 
     example datasets for demonstration and testing.
 License: MIT + file LICENSE
+URL: https://hui950319.github.io/BulkS4/, https://github.com/HUI950319/BulkS4
+BugReports: https://github.com/HUI950319/BulkS4/issues
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
 RoxygenNote: 7.3.2
+VignetteBuilder: knitr
 Depends: 
     R (>= 4.0.0)
 Imports:
@@ -41,4 +44,6 @@ Suggests:
     usethis,
     devtools,
     pbapply,
-    parallel
+    parallel,
+    knitr,
+    rmarkdown

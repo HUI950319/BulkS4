@@ -1,0 +1,237 @@
+---
+title: "Differential Expression Analysis with BulkS4"
+author: "Hui Ouyang"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
+vignette: >
+  %\VignetteIndexEntry{Differential Expression Analysis with BulkS4}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+## Introduction
+
+This tutorial demonstrates how to perform differential expression analysis using BulkS4. The package supports three popular methods:
+
+- **DESeq2**: Negative binomial distribution-based method
+- **edgeR**: Empirical Bayes method for overdispersed count data
+- **limma-voom**: Linear modeling with precision weights
+
+## Setup
+
+```{r}
+library(BulkS4)
+
+# Load example data
+data(counts)
+data(metadata)
+
+# Create BulkRNAseq object
+bulk_obj <- BulkRNAseq(counts, metadata)
+```
+
+## Single Method Analysis
+
+### Using DESeq2
+
+```{r eval=FALSE}
+# Run DESeq2 analysis
+if (requireNamespace("DESeq2", quietly = TRUE)) {
+  deseq2_results <- run_DESeq2(
+    counts = getCounts(bulk_obj),
+    metadata = getMetadata(bulk_obj),
+    group_col = "condition",
+    control_group = "Control",
+    treatment_group = "Treatment"
+  )
+  
+  head(deseq2_results)
+}
+```
+
+### Using edgeR
+
+```{r eval=FALSE}
+# Run edgeR analysis
+if (requireNamespace("edgeR", quietly = TRUE)) {
+  edger_results <- run_edgeR(
+    counts = getCounts(bulk_obj),
+    metadata = getMetadata(bulk_obj),
+    group_col = "condition",
+    control_group = "Control",
+    treatment_group = "Treatment"
+  )
+  
+  head(edger_results)
+}
+```
+
+### Using limma-voom
+
+```{r eval=FALSE}
+# Run limma-voom analysis
+if (requireNamespace("limma", quietly = TRUE)) {
+  limma_results <- run_limma_voom(
+    counts = getCounts(bulk_obj),
+    metadata = getMetadata(bulk_obj),
+    group_col = "condition",
+    control_group = "Control",
+    treatment_group = "Treatment"
+  )
+  
+  head(limma_results)
+}
+```
+
+## Integrated Analysis
+
+### Running Multiple Methods
+
+The `runDiffAnalysis()` function allows you to run multiple methods at once:
+
+```{r eval=FALSE}
+# Run all three methods
+bulk_obj <- runDiffAnalysis(
+  bulk_obj,
+  group_col = "condition",
+  control_group = "Control",
+  treatment_group = "Treatment",
+  methods = c("DESeq2", "edgeR", "limma")
+)
+
+# View analysis summary
+summary(bulk_obj)
+```
+
+### Comparing Methods
+
+```{r eval=FALSE}
+# Compare results from different methods
+comparison <- compareDiffMethods(bulk_obj)
+print(comparison)
+```
+
+### Extracting Results
+
+```{r eval=FALSE}
+# Extract results from specific method
+deseq2_results <- extractDiffResults(bulk_obj, method = "DESeq2")
+edger_results <- extractDiffResults(bulk_obj, method = "edgeR")
+
+# Get analysis summary
+analysis_summary <- getAnalysisSummary(bulk_obj)
+print(analysis_summary)
+```
+
+## Filtering and Visualization
+
+### Filtering Significant Genes
+
+```{r eval=FALSE}
+# Filter significant genes (example with DESeq2 results)
+if (exists("deseq2_results")) {
+  significant_genes <- deseq2_results[
+    deseq2_results$padj < 0.05 & abs(deseq2_results$log2FoldChange) > 1,
+  ]
+  
+  cat("Number of significant genes:", nrow(significant_genes), "\n")
+  head(significant_genes)
+}
+```
+
+### Basic Visualization
+
+```{r eval=FALSE}
+# MA plot (example)
+if (exists("deseq2_results")) {
+  plot(deseq2_results$baseMean, deseq2_results$log2FoldChange,
+       log = "x", pch = 20, cex = 0.5,
+       xlab = "Mean Expression", ylab = "Log2 Fold Change",
+       main = "MA Plot")
+  abline(h = c(-1, 1), col = "red", lty = 2)
+}
+```
+
+## Advanced Usage
+
+### Custom Contrasts
+
+```{r eval=FALSE}
+# For more complex experimental designs
+# You can specify custom contrasts in the metadata
+
+# Example: Time course experiment
+metadata_timecourse <- data.frame(
+  condition = rep(c("Control", "Treatment"), each = 6),
+  timepoint = rep(c("0h", "6h", "12h"), times = 4),
+  row.names = colnames(counts)
+)
+
+bulk_obj_time <- BulkRNAseq(counts, metadata_timecourse)
+
+# Run analysis for specific contrast
+bulk_obj_time <- runDiffAnalysis(
+  bulk_obj_time,
+  group_col = "condition",
+  methods = "DESeq2"
+)
+```
+
+### Batch Effect Correction
+
+```{r eval=FALSE}
+# If you have batch information in metadata
+if ("batch" %in% colnames(getMetadata(bulk_obj))) {
+  # The analysis functions automatically include batch as a covariate
+  # when it's present in the metadata
+  
+  bulk_obj_batch <- runDiffAnalysis(
+    bulk_obj,
+    group_col = "condition",
+    methods = "DESeq2"
+  )
+}
+```
+
+## Best Practices
+
+1. **Quality Control**: Always perform quality control on your data before analysis
+2. **Multiple Methods**: Consider using multiple methods and comparing results
+3. **Multiple Testing**: Use appropriate multiple testing correction (FDR)
+4. **Effect Size**: Consider both statistical significance and biological significance
+5. **Validation**: Validate important findings with independent methods
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Missing Packages**: Install required Bioconductor packages:
+   ```{r eval=FALSE}
+   if (!requireNamespace("BiocManager", quietly = TRUE))
+     install.packages("BiocManager")
+   
+   BiocManager::install(c("DESeq2", "edgeR", "limma"))
+   ```
+
+2. **Low Count Filtering**: The functions automatically filter low-count genes
+3. **Sample Size**: Ensure adequate sample size for reliable results
+
+## Session Information
+
+```{r}
+sessionInfo()
+``` 
