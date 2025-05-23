@@ -1,0 +1,325 @@
+---
+title: "Visualization with BulkS4"
+author: "Hui Ouyang"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
+vignette: >
+  %\VignetteIndexEntry{Visualization with BulkS4}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 6,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+## Introduction
+
+BulkS4 provides comprehensive visualization methods for RNA-seq data analysis. This tutorial demonstrates how to create various plots for:
+
+- Gene expression visualization (bar plots, box plots)
+- Heatmaps for expression patterns
+- Volcano plots for differential expression
+- MA plots for expression vs fold change
+- PCA and hierarchical clustering for sample relationships
+
+## Setup
+
+```{r}
+library(BulkS4)
+
+# Load example data
+data(counts)
+data(metadata)
+
+# Create BulkRNAseq object
+bulk_obj <- BulkRNAseq(counts, metadata)
+
+# Set normalized data (log2 transformation)
+log_counts <- log2(getCounts(bulk_obj) + 1)
+bulk_obj <- setData(bulk_obj, log_counts)
+```
+
+## Bar/Box Plots for Gene Expression
+
+### Single Gene Visualization
+
+```{r eval=FALSE}
+# Basic box plot for a single gene
+bar(bulk_obj, genes = "CD36", group = "condition")
+
+# Custom colors and statistical test
+bar(bulk_obj, 
+    genes = "CD36", 
+    group = "condition",
+    palette = c("#E31A1C", "#1F78B4"),
+    method = "wilcox.test")
+```
+
+### Multiple Genes Visualization
+
+```{r eval=FALSE}
+# Multiple genes in faceted plot
+selected_genes <- rownames(bulk_obj)[1:6]
+bar(bulk_obj, 
+    genes = selected_genes, 
+    group = "condition",
+    palette = c("#FF7F00", "#33A02C"))
+```
+
+### GSVA Results Visualization
+
+```{r eval=FALSE}
+# First run GSVA analysis
+bulk_obj <- gsva(bulk_obj, gene_sets = "hallmark")
+
+# Visualize pathway scores
+pathway_names <- rownames(bulk_obj@gsva$hallmark)[1:4]
+bar(bulk_obj, 
+    data = "hallmark", 
+    genes = pathway_names, 
+    group = "condition")
+```
+
+## Heatmaps
+
+### Gene Expression Heatmaps
+
+```{r eval=FALSE}
+# Heatmap of specific genes
+selected_genes <- rownames(bulk_obj)[1:20]
+hmap(bulk_obj, 
+     genes = selected_genes,
+     group = "condition",
+     show_rownames = TRUE,
+     scale = "row")
+
+# Custom color palette
+library(viridis)
+hmap(bulk_obj, 
+     genes = selected_genes,
+     group = "condition",
+     color_palette = viridis(50, option = "plasma"))
+```
+
+### Top Differential Genes Heatmap
+
+```{r eval=FALSE}
+# First run differential analysis
+bulk_obj <- runDiffAnalysis(bulk_obj, 
+                           group_col = "condition",
+                           methods = "limma")
+
+# Heatmap of top 20 differential genes
+hmap(bulk_obj, 
+     genes = 20,  # Top 20 differential genes
+     group = "condition",
+     show_rownames = FALSE,
+     scale = "row")
+```
+
+### Pathway Heatmaps
+
+```{r eval=FALSE}
+# Heatmap of pathway scores
+hmap(bulk_obj, 
+     data = "hallmark",
+     genes = 15,  # Top 15 differential pathways
+     group = "condition",
+     scale = "row")
+```
+
+## Volcano Plots
+
+### Basic Volcano Plot
+
+```{r eval=FALSE}
+# Standard volcano plot
+volcano(bulk_obj, data = "allDiff")
+
+# Custom thresholds and colors
+volcano(bulk_obj, 
+        data = "allDiff",
+        fc_threshold = 1.5,
+        adj.P_value_threshold = 0.01,
+        highlight_fc_threshold = 2,
+        colors = c("red", "grey", "blue", "orange"),
+        symmetry = TRUE)
+```
+
+### Enhanced Volcano Plot
+
+```{r eval=FALSE}
+# Volcano plot with custom parameters
+volcano(bulk_obj, 
+        data = "allDiff",
+        fc_threshold = 1,
+        highlight_fc_threshold = 2.5,
+        adj.P_value_threshold = 0.05,
+        point_size = 1.5,
+        highlight_size = 4,
+        symmetry = TRUE)
+```
+
+## MA Plots
+
+### Basic MA Plot
+
+```{r eval=FALSE}
+# Standard MA plot
+MA(bulk_obj, data = "allDiff")
+
+# Custom parameters
+MA(bulk_obj, 
+   data = "allDiff",
+   fc_threshold = 1.5,
+   adj.P_value_threshold = 0.01,
+   highlight_fc_threshold = 3,
+   colors = c("darkred", "lightgrey", "darkblue", "green"))
+```
+
+## PCA and Hierarchical Clustering
+
+### Combined PCA and Clustering Plot
+
+```{r eval=FALSE}
+# Basic PCA and hierarchical clustering
+pca_hc(bulk_obj)
+
+# Custom clustering parameters
+pca_hc(bulk_obj,
+       dist_method = "manhattan",
+       hclust_method = "complete",
+       k = 3,
+       add_ellipses = TRUE,
+       repel = TRUE)
+```
+
+### Customized Clustering
+
+```{r eval=FALSE}
+# Horizontal dendrogram with custom colors
+pca_hc(bulk_obj,
+       dist_method = "euclidean",
+       hclust_method = "ward.D2",
+       k = 2,
+       horiz = TRUE,
+       rect = TRUE,
+       rect_fill = TRUE,
+       pca_style = "default")
+```
+
+## Advanced Visualization Tips
+
+### 1. Color Palettes
+
+```{r eval=FALSE}
+# Using different color palettes
+# For categorical data
+categorical_colors <- c("#E31A1C", "#1F78B4", "#33A02C", "#FF7F00")
+
+# For heatmaps
+library(RColorBrewer)
+heatmap_colors <- colorRampPalette(brewer.pal(9, "RdYlBu"))(100)
+
+# Using viridis
+library(viridis)
+viridis_colors <- viridis(20, option = "plasma")
+```
+
+### 2. Combining Plots
+
+```{r eval=FALSE}
+# Using patchwork to combine plots
+library(patchwork)
+
+p1 <- bar(bulk_obj, genes = "CD36", group = "condition")
+p2 <- volcano(bulk_obj, data = "allDiff")
+
+# Combine plots
+p1 | p2  # Side by side
+p1 / p2  # One above the other
+```
+
+### 3. Saving High-Quality Plots
+
+```{r eval=FALSE}
+# Save plots with high resolution
+p <- volcano(bulk_obj, data = "allDiff", symmetry = TRUE)
+
+# Save as PDF
+pdf("volcano_plot.pdf", width = 8, height = 6)
+print(p)
+dev.off()
+
+# Save as PNG with high DPI
+png("volcano_plot.png", width = 8, height = 6, units = "in", res = 300)
+print(p)
+dev.off()
+```
+
+## Customization Examples
+
+### Custom Themes
+
+```{r eval=FALSE}
+# Create custom theme
+custom_theme <- theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10),
+    legend.position = "bottom"
+  )
+
+# Apply to plots
+p <- bar(bulk_obj, genes = "CD36", group = "condition")
+p + custom_theme
+```
+
+### Interactive Plots
+
+```{r eval=FALSE}
+# Convert to interactive plot using plotly
+library(plotly)
+
+p <- volcano(bulk_obj, data = "allDiff")
+ggplotly(p)
+```
+
+## Best Practices
+
+1. **Choose Appropriate Colors**: Use colorblind-friendly palettes
+2. **Scale Data Properly**: Use appropriate scaling for heatmaps
+3. **Label Clearly**: Ensure all axes and legends are properly labeled
+4. **Save High Quality**: Use vector formats (PDF, SVG) when possible
+5. **Consider Audience**: Adjust complexity based on your audience
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Missing Packages**: Install required visualization packages:
+   ```{r eval=FALSE}
+   install.packages(c("ggpubr", "pheatmap", "viridis", "ggrepel", 
+                     "factoextra", "ggsci", "patchwork"))
+   ```
+
+2. **Memory Issues**: For large datasets, consider subsetting genes
+3. **Plot Appearance**: Adjust figure dimensions in chunk options
+
+## Session Information
+
+```{r}
+sessionInfo()
+``` 

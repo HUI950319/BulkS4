@@ -31,7 +31,10 @@ Imports:
     cli,
     GSVA,
     clusterProfiler,
-    limma
+    limma,
+    dplyr,
+    tidyr,
+    ggplot2
 Suggests:
     testthat (>= 3.0.0),
     DESeq2,
@@ -46,4 +49,14 @@ Suggests:
     pbapply,
     parallel,
     knitr,
-    rmarkdown
+    rmarkdown,
+    ggpubr,
+    pheatmap,
+    viridis,
+    ggrepel,
+    factoextra,
+    tinyarray,
+    ggsci,
+    patchwork,
+    RColorBrewer,
+    plotly

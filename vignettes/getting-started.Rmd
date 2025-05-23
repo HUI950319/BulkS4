@@ -83,7 +83,7 @@ head(rownames(bulk_obj))
 colnames(bulk_obj)
 
 # Access metadata columns
-head(bulk_obj$condition)
+head(bulk_obj$group)
 ```
 
 ### Data Access

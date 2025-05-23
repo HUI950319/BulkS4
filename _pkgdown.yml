@@ -27,6 +27,8 @@ navbar:
       menu:
         - text: "Differential Expression Analysis"
           href: articles/differential-analysis.html
+        - text: "Visualization"
+          href: articles/visualization.html
     - text: "Reference"
       href: reference/index.html
     - text: "News"
@@ -82,18 +84,20 @@ reference:
       - gsea
       - gsva
   
+  - title: "Visualization Methods"
+    desc: "Functions for creating plots and visualizations"
+    contents:
+      - bar
+      - hmap
+      - volcano
+      - MA
+      - pca_hc
+  
   - title: "Utility Functions"
     desc: "Helper functions for data processing"
     contents:
       - dedup_genes
       - convert_genes
-  
-  - title: "Example Datasets"
-    desc: "Example data included in the package"
-    contents:
-      - counts
-      - metadata
-      - geneSet_msig
 
 articles:
   - title: "Getting Started"
@@ -105,6 +109,7 @@ articles:
     desc: "Step-by-step guides for common analyses"
     contents:
       - differential-analysis
+      - visualization
 
 authors:
   Hui Ouyang:
