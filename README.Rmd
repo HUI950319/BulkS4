@@ -125,12 +125,11 @@ bar(bulk_obj, genes = c("CD36", "GAPDH", "ACTB"), group = "group")
 
 # Heatmap of specific genes
 selected_genes <-c("TSPAN6", "TNMD", "DPM1", "SCYL3", "C1orf112", "FGR", "CFH")
-hmap(bulk_obj, genes = selected_genes, group = "group", 
-     show_rownames = TRUE, scale = "row")
+hmap(bulk_obj, genes = selected_genes)
 
 # Heatmap of top 20 DEGs
-hmap(bulk_obj, genes = 20, group = "group", 
-     show_rownames = TRUE, scale = "row")
+bulk_obj <- runDiffAnalysis(bulk_obj, method = "DESeq2")
+hmap(bulk_obj, genes = 20)
 
 ```
 
@@ -146,6 +145,7 @@ pca_hc(bulk_obj)
 
 ```{r volcano-plot, fig.width=6, fig.height=5 }
 # Create volcano plot for differential expression results
+bulk_obj <- runDiffAnalysis(bulk_obj, method = "DESeq2")
 volcano(bulk_obj, data = "DESeq2_treat_vs_con")
 ```
 
@@ -153,6 +153,7 @@ volcano(bulk_obj, data = "DESeq2_treat_vs_con")
 
 ```{r ma-plot, fig.width=6, fig.height=5 }
 # Create MA plot
+bulk_obj <- runDiffAnalysis(bulk_obj, method = "DESeq2")
 MA(bulk_obj, data = "DESeq2_treat_vs_con")
 ```
 
@@ -172,7 +173,7 @@ bulk_obj
 # head(bulk_obj@gsea$H)
 
 # Visualize GSEA results
-dotplot(bulk_obj@gsea$H, split = ".sign", label_format = 60) + ggplot2::facet_grid(~.sign)
+clusterProfiler::dotplot(bulk_obj@gsea$H, split = ".sign", label_format = 60) + ggplot2::facet_grid(~.sign)
 
 ```
 

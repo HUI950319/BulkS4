@@ -137,14 +137,10 @@ a:hover {
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9"><div class="section level1">
+  <main id="main" class="col-md-9">
+<div class="section level1">
 <div class="page-header"><h1 id="bulks4-s4-classes-for-bulk-rna-seq-data-analysis">BulkS4: S4 Classes for Bulk RNA-seq Data Analysis<a class="anchor" aria-label="anchor" href="#bulks4-s4-classes-for-bulk-rna-seq-data-analysis"></a>
 </h1></div>
-<!-- badges: start -->
-
-<div class="section level2">
-<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
-</h2>
 <p><strong>BulkS4</strong> is a comprehensive R package that provides S4 classes and methods for bulk RNA-seq data analysis. The package offers a unified framework for storing, analyzing, and visualizing bulk RNA-seq data with integrated support for:</p>
 <ul>
 <li>🧬 <strong>Differential Expression Analysis</strong> using DESeq2, edgeR, and limma-voom</li>
@@ -155,7 +151,7 @@ a:hover {
 <li>📈 <strong>Rich Visualization Tools</strong> for publication-ready plots</li>
 <li>🗂️ <strong>Integrated Data Management</strong> with S4 classes</li>
 </ul>
-</div>
+<p>Find out more at <a href="https://hui950319.github.io/BulkS4/" class="uri">https://hui950319.github.io/BulkS4/</a>.</p>
 <div class="section level2">
 <h2 id="sparkles-key-features">✨ Key Features<a class="anchor" aria-label="anchor" href="#sparkles-key-features"></a>
 </h2>
@@ -193,28 +189,32 @@ a:hover {
 <div class="section level3">
 <h3 id="load-example-data">Load Example Data<a class="anchor" aria-label="anchor" href="#load-example-data"></a>
 </h3>
+<p>BulkS4 comes with example datasets that you can use to get started:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hui950319.github.io/BulkS4/">BulkS4</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Load example datasets included in the package</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span>      <span class="co"># Example RNA-seq count matrix (500 genes × 6 samples)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span>      <span class="co"># Example RNA-seq count matrix (36888 genes × 6 samples)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span>    <span class="co"># Example sample metadata</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">geneSet_msig</span><span class="op">)</span> <span class="co"># MSigDB gene sets</span></span>
 <span></span>
 <span><span class="co"># Examine the example data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">counts</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">#&gt;           Cov1 Cov2 Cov3 Mock1</span></span>
-<span><span class="co">#&gt; CD36       156  142  123   89</span></span>
-<span><span class="co">#&gt; GAPDH     1245 1198 1356 1289</span></span>
-<span><span class="co">#&gt; ACTB      2134 2287 2156 2245</span></span>
-<span><span class="co">#&gt; GUSB       234  198  267  198</span></span>
-<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span></span>
+<span><span class="co">#&gt;          Cov1 Cov2 Cov3 Mock1 Mock2 Mock3</span></span>
+<span><span class="co">#&gt; TSPAN6   1270 1013  848  4571  5500  4844</span></span>
+<span><span class="co">#&gt; TNMD      121  125   49  3220  6435  2977</span></span>
+<span><span class="co">#&gt; DPM1     1023 1045  674  2404  4794  1819</span></span>
+<span><span class="co">#&gt; SCYL3    1049  713  692   854   356  1015</span></span>
+<span><span class="co">#&gt; C1orf112  211  158   90   576   195   477</span></span>
+<span><span class="co">#&gt; FGR         9    8    2    10     5     0</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       sample group</span></span>
 <span><span class="co">#&gt; Cov1    Cov1 treat</span></span>
 <span><span class="co">#&gt; Cov2    Cov2 treat</span></span>
 <span><span class="co">#&gt; Cov3    Cov3 treat</span></span>
-<span><span class="co">#&gt; Mock1  Mock1   con</span></span></code></pre></div>
+<span><span class="co">#&gt; Mock1  Mock1   con</span></span>
+<span><span class="co">#&gt; Mock2  Mock2   con</span></span>
+<span><span class="co">#&gt; Mock3  Mock3   con</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="create-bulkrnaseq-object">Create BulkRNAseq Object<a class="anchor" aria-label="anchor" href="#create-bulkrnaseq-object"></a>
@@ -224,18 +224,38 @@ a:hover {
 <span><span class="va">bulk_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/BulkRNAseq.html">BulkRNAseq</a></span><span class="op">(</span><span class="va">counts</span>, <span class="va">metadata</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># View object summary</span></span>
-<span><span class="va">bulk_obj</span></span>
-<span><span class="co">#&gt; BulkRNAseq object with:</span></span>
-<span><span class="co">#&gt; - 500 genes and 6 samples</span></span>
-<span><span class="co">#&gt; - Metadata: 2 columns (sample, group)</span></span>
-<span><span class="co">#&gt; - Gene sets: 6 collections (18459 total sets)</span></span>
-<span><span class="co">#&gt; - Differential analysis: Not performed</span></span>
-<span><span class="co">#&gt; - GSEA results: Not available</span></span>
-<span><span class="co">#&gt; - GSVA results: Not available</span></span>
-<span></span>
-<span><span class="co"># Set normalized data (log2 transformation)</span></span>
-<span><span class="va">log_counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fu"><a href="reference/getCounts.html">getCounts</a></span><span class="op">(</span><span class="va">bulk_obj</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">bulk_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/setData.html">setData</a></span><span class="op">(</span><span class="va">bulk_obj</span>, <span class="va">log_counts</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">bulk_obj</span>                     </span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  ====== BulkRNAseq Object ====== </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Genes:          36888</span></span>
+<span><span class="co">#&gt; Samples:        6</span></span>
+<span><span class="co">#&gt; Metadata vars:  sample, group</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  ------ Analysis Results ------ </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Diff analyses:  0: None</span></span>
+<span><span class="co">#&gt; Gene sets:      25: C1, C2_CGP, C2_CP, C2_CP:BIOCARTA, C2_CP:KEGG_LEGACY, C2_CP:KEGG_MEDICUS, C2_CP:PID, C2_CP:REACTOME, C2_CP:WIKIPATHWAYS, C3_MIR:MIRDB, C3_MIR:MIR_LEGACY, C3_TFT:GTRD, C3_TFT:TFT_LEGACY, C4_3CA, C4_CGN, C4_CM, C5_GO:BP, C5_GO:CC, C5_GO:MF, C5_HPO, C6, C7_IMMUNESIGDB, C7_VAX, C8, H</span></span>
+<span><span class="co">#&gt; GSEA results:   0: None</span></span>
+<span><span class="co">#&gt; GSVA results:   0: None</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  --------------------------------------------------</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="microscope-differential-expression-analysis">🔬 Differential Expression Analysis<a class="anchor" aria-label="anchor" href="#microscope-differential-expression-analysis"></a>
+</h2>
+<div class="section level3">
+<h3 id="run-differential-analysis">Run Differential Analysis<a class="anchor" aria-label="anchor" href="#run-differential-analysis"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Run differential expression analysis using DESeq2--add normalized data and diff results</span></span>
+<span><span class="va">bulk_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/runDiffAnalysis.html">runDiffAnalysis</a></span><span class="op">(</span><span class="va">bulk_obj</span>, method <span class="op">=</span> <span class="st">"DESeq2"</span><span class="op">)</span></span>
+<span><span class="co"># View the updated object</span></span>
+<span><span class="va">bulk_obj</span>    <span class="co"># View the updated object </span></span>
+<span><span class="co"># Get differential expression results</span></span>
+<span><span class="va">diff_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/getDiffResults.html">getDiffResults</a></span><span class="op">(</span><span class="va">bulk_obj</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">diff_results</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -243,70 +263,59 @@ a:hover {
 </h2>
 <p>BulkS4 provides comprehensive visualization functions for RNA-seq data analysis:</p>
 <div class="section level3">
-<h3 id="id_1-gene-expression-barbox-plots">1. Gene Expression Bar/Box Plots<a class="anchor" aria-label="anchor" href="#id_1-gene-expression-barbox-plots"></a>
-</h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Single gene expression</span></span>
-<span><span class="fu"><a href="reference/bar.html">bar</a></span><span class="op">(</span><span class="va">bulk_obj</span>, genes <span class="op">=</span> <span class="st">"CD36"</span>, group <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Multiple genes</span></span>
-<span><span class="fu"><a href="reference/bar.html">bar</a></span><span class="op">(</span><span class="va">bulk_obj</span>, genes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CD36"</span>, <span class="st">"GAPDH"</span>, <span class="st">"ACTB"</span><span class="op">)</span>, group <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="id_2-heatmaps">2. Heatmaps<a class="anchor" aria-label="anchor" href="#id_2-heatmaps"></a>
+<h3 id="gene-expression-barbox-plots">Gene Expression Bar/Box Plots<a class="anchor" aria-label="anchor" href="#gene-expression-barbox-plots"></a>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Heatmap of specific genes</span></span>
-<span><span class="va">selected_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">bulk_obj</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">]</span></span>
-<span><span class="fu"><a href="reference/hmap.html">hmap</a></span><span class="op">(</span><span class="va">bulk_obj</span>, genes <span class="op">=</span> <span class="va">selected_genes</span>, group <span class="op">=</span> <span class="st">"group"</span>, </span>
-<span>     show_rownames <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="st">"row"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Heatmap of top differential genes (after DE analysis)</span></span>
-<span><span class="fu"><a href="reference/hmap.html">hmap</a></span><span class="op">(</span><span class="va">bulk_obj</span>, genes <span class="op">=</span> <span class="fl">15</span>, group <span class="op">=</span> <span class="st">"group"</span>, scale <span class="op">=</span> <span class="st">"row"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Single gene expression</span></span>
+<span><span class="fu"><a href="reference/bar.html">bar</a></span><span class="op">(</span><span class="va">bulk_obj</span>, genes <span class="op">=</span> <span class="st">"CD36"</span>, group <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tools/README-gene-expression-plots-1.png"></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Multiple genes expression</span></span>
+<span><span class="fu"><a href="reference/bar.html">bar</a></span><span class="op">(</span><span class="va">bulk_obj</span>, genes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CD36"</span>, <span class="st">"GAPDH"</span>, <span class="st">"ACTB"</span><span class="op">)</span>, group <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tools/README-multiple-genes-plot-1.png"></p>
 </div>
 <div class="section level3">
-<h3 id="id_3-principal-component-analysis">3. Principal Component Analysis<a class="anchor" aria-label="anchor" href="#id_3-principal-component-analysis"></a>
+<h3 id="heatmaps">Heatmaps<a class="anchor" aria-label="anchor" href="#heatmaps"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># PCA with hierarchical clustering</span></span>
-<span><span class="fu"><a href="reference/pca_hc.html">pca_hc</a></span><span class="op">(</span><span class="va">bulk_obj</span>, k <span class="op">=</span> <span class="fl">2</span>, add_ellipses <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="dna-differential-expression-analysis">🧬 Differential Expression Analysis<a class="anchor" aria-label="anchor" href="#dna-differential-expression-analysis"></a>
-</h2>
-<p>Run comprehensive differential expression analysis with multiple methods:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Perform differential expression analysis</span></span>
-<span><span class="va">bulk_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/runDiffAnalysis.html">runDiffAnalysis</a></span><span class="op">(</span><span class="va">bulk_obj</span>, </span>
-<span>                           group_col <span class="op">=</span> <span class="st">"group"</span>,</span>
-<span>                           methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DESeq2"</span>, <span class="st">"edgeR"</span>, <span class="st">"limma"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Compare methods</span></span>
-<span><span class="va">comparison</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/compareDiffMethods.html">compareDiffMethods</a></span><span class="op">(</span><span class="va">bulk_obj</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">comparison</span><span class="op">$</span><span class="va">summary</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Extract results from specific method</span></span>
-<span><span class="va">deseq2_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/extractDiffResults.html">extractDiffResults</a></span><span class="op">(</span><span class="va">bulk_obj</span>, method <span class="op">=</span> <span class="st">"DESeq2"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">deseq2_results</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Heatmap of specific genes</span></span>
+<span><span class="va">selected_genes</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TSPAN6"</span>, <span class="st">"TNMD"</span>, <span class="st">"DPM1"</span>, <span class="st">"SCYL3"</span>, <span class="st">"C1orf112"</span>, <span class="st">"FGR"</span>, <span class="st">"CFH"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/hmap.html">hmap</a></span><span class="op">(</span><span class="va">bulk_obj</span>, genes <span class="op">=</span> <span class="va">selected_genes</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tools/README-heatmap-1.png"></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Heatmap of top 20 DEGs</span></span>
+<span><span class="va">bulk_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/runDiffAnalysis.html">runDiffAnalysis</a></span><span class="op">(</span><span class="va">bulk_obj</span>, method <span class="op">=</span> <span class="st">"DESeq2"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/hmap.html">hmap</a></span><span class="op">(</span><span class="va">bulk_obj</span>, genes <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tools/README-heatmap-2.png"></p>
+</div>
+<div class="section level3">
+<h3 id="pca-and-hierarchical-clustering">PCA and Hierarchical Clustering<a class="anchor" aria-label="anchor" href="#pca-and-hierarchical-clustering"></a>
+</h3>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># PCA and hierarchical clustering combined plot</span></span>
+<span><span class="co"># Note: This requires additional packages (factoextra, tinyarray, ggsci, patchwork)</span></span>
+<span><span class="fu"><a href="reference/pca_hc.html">pca_hc</a></span><span class="op">(</span><span class="va">bulk_obj</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tools/README-pca-clustering-1.png"></p>
+</div>
 <div class="section level3">
 <h3 id="volcano-plot">Volcano Plot<a class="anchor" aria-label="anchor" href="#volcano-plot"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Create volcano plot</span></span>
-<span><span class="fu"><a href="reference/volcano.html">volcano</a></span><span class="op">(</span><span class="va">bulk_obj</span>, data <span class="op">=</span> <span class="st">"allDiff"</span>, </span>
-<span>        fc_threshold <span class="op">=</span> <span class="fl">1</span>, </span>
-<span>        adj.P_value_threshold <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>        highlight_fc_threshold <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Create volcano plot for differential expression results</span></span>
+<span><span class="va">bulk_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/runDiffAnalysis.html">runDiffAnalysis</a></span><span class="op">(</span><span class="va">bulk_obj</span>, method <span class="op">=</span> <span class="st">"DESeq2"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/volcano.html">volcano</a></span><span class="op">(</span><span class="va">bulk_obj</span>, data <span class="op">=</span> <span class="st">"DESeq2_treat_vs_con"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tools/README-volcano-plot-1.png"></p>
 </div>
 <div class="section level3">
 <h3 id="ma-plot">MA Plot<a class="anchor" aria-label="anchor" href="#ma-plot"></a>
 </h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create MA plot</span></span>
-<span><span class="fu"><a href="reference/MA.html">MA</a></span><span class="op">(</span><span class="va">bulk_obj</span>, data <span class="op">=</span> <span class="st">"allDiff"</span>,</span>
-<span>   fc_threshold <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>   adj.P_value_threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">bulk_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/runDiffAnalysis.html">runDiffAnalysis</a></span><span class="op">(</span><span class="va">bulk_obj</span>, method <span class="op">=</span> <span class="st">"DESeq2"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/MA.html">MA</a></span><span class="op">(</span><span class="va">bulk_obj</span>, data <span class="op">=</span> <span class="st">"DESeq2_treat_vs_con"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tools/README-ma-plot-1.png"></p>
 </div>
 </div>
 <div class="section level2">
@@ -315,447 +324,132 @@ a:hover {
 <div class="section level3">
 <h3 id="gene-set-enrichment-analysis-gsea">Gene Set Enrichment Analysis (GSEA)<a class="anchor" aria-label="anchor" href="#gene-set-enrichment-analysis-gsea"></a>
 </h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Run GSEA with Hallmark gene sets</span></span>
-<span><span class="va">bulk_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gsea.html">gsea</a></span><span class="op">(</span><span class="va">bulk_obj</span>, </span>
-<span>                group_col <span class="op">=</span> <span class="st">"group"</span>,</span>
-<span>                gene_sets <span class="op">=</span> <span class="st">"hallmark"</span>,</span>
-<span>                pvalueCutoff <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Run GSEA analysis-- use genesets from MSigDB</span></span>
+<span><span class="va">bulk_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gsea.html">gsea</a></span><span class="op">(</span><span class="va">bulk_obj</span>, geneSet_name <span class="op">=</span> <span class="st">"H"</span> <span class="op">)</span></span>
 <span></span>
-<span><span class="co"># View GSEA results</span></span>
-<span><span class="va">gsea_results</span> <span class="op">&lt;-</span> <span class="va">bulk_obj</span><span class="op">@</span><span class="va">gsea</span><span class="op">$</span><span class="va">hallmark</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gsea_results</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># # Run GSEA analysis with common used genesets</span></span>
+<span><span class="co"># bulk_obj &lt;- gsea(bulk_obj, geneSet_name = c("H", "C2_CP:KEGG_LEGACY", "C5_GO:BP", "C5_GO:CC", "C5_GO:MF") )</span></span>
+<span></span>
+<span><span class="co"># View bulk_obj--gsea results add to gsea slot</span></span>
+<span><span class="va">bulk_obj</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  ====== BulkRNAseq Object ====== </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Genes:          36888</span></span>
+<span><span class="co">#&gt; Samples:        6</span></span>
+<span><span class="co">#&gt; Metadata vars:  sample, group</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  ------ Analysis Results ------ </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Diff analyses:  1: DESeq2_treat_vs_con</span></span>
+<span><span class="co">#&gt; Gene sets:      25: C1, C2_CGP, C2_CP, C2_CP:BIOCARTA, C2_CP:KEGG_LEGACY, C2_CP:KEGG_MEDICUS, C2_CP:PID, C2_CP:REACTOME, C2_CP:WIKIPATHWAYS, C3_MIR:MIRDB, C3_MIR:MIR_LEGACY, C3_TFT:GTRD, C3_TFT:TFT_LEGACY, C4_3CA, C4_CGN, C4_CM, C5_GO:BP, C5_GO:CC, C5_GO:MF, C5_HPO, C6, C7_IMMUNESIGDB, C7_VAX, C8, H</span></span>
+<span><span class="co">#&gt; GSEA results:   1: H</span></span>
+<span><span class="co">#&gt; GSVA results:   0: None</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  --------------------------------------------------</span></span>
+<span><span class="co"># head(bulk_obj@gsea$H)</span></span>
+<span></span>
+<span><span class="co"># Visualize GSEA results</span></span>
+<span><span class="fu">clusterProfiler</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/enrichplot/man/dotplot.html" class="external-link">dotplot</a></span><span class="op">(</span><span class="va">bulk_obj</span><span class="op">@</span><span class="va">gsea</span><span class="op">$</span><span class="va">H</span>, split <span class="op">=</span> <span class="st">".sign"</span>, label_format <span class="op">=</span> <span class="fl">60</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="op">~</span><span class="va">.sign</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tools/README-gsea-analysis-1.png"></p>
 </div>
 <div class="section level3">
 <h3 id="gene-set-variation-analysis-gsva">Gene Set Variation Analysis (GSVA)<a class="anchor" aria-label="anchor" href="#gene-set-variation-analysis-gsva"></a>
 </h3>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Run GSVA analysis</span></span>
-<span><span class="va">bulk_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gsva.html">gsva</a></span><span class="op">(</span><span class="va">bulk_obj</span>,</span>
-<span>                gene_sets <span class="op">=</span> <span class="st">"hallmark"</span>,</span>
-<span>                method <span class="op">=</span> <span class="st">"gsva"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Visualize pathway scores</span></span>
-<span><span class="va">pathway_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">bulk_obj</span><span class="op">@</span><span class="va">gsva</span><span class="op">$</span><span class="va">hallmark</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span>
-<span><span class="fu"><a href="reference/bar.html">bar</a></span><span class="op">(</span><span class="va">bulk_obj</span>, data <span class="op">=</span> <span class="st">"hallmark"</span>, genes <span class="op">=</span> <span class="va">pathway_names</span>, group <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Heatmap of pathway activities</span></span>
-<span><span class="fu"><a href="reference/hmap.html">hmap</a></span><span class="op">(</span><span class="va">bulk_obj</span>, data <span class="op">=</span> <span class="st">"hallmark"</span>, genes <span class="op">=</span> <span class="fl">15</span>, group <span class="op">=</span> <span class="st">"group"</span>, scale <span class="op">=</span> <span class="st">"row"</span><span class="op">)</span></span></code></pre></div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="card_index_dividers-s4-class-structure">🗂️ S4 Class Structure<a class="anchor" aria-label="anchor" href="#card_index_dividers-s4-class-structure"></a>
-</h2>
-<div class="section level3">
-<h3 id="bulkrnaseq-class-slots">BulkRNAseq Class Slots<a class="anchor" aria-label="anchor" href="#bulkrnaseq-class-slots"></a>
-</h3>
-<table class="table">
-<colgroup>
-<col width="24%">
-<col width="24%">
-<col width="52%">
-</colgroup>
-<thead><tr>
-<th>Slot</th>
-<th>Type</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr>
-<td><code>counts</code></td>
-<td>matrix</td>
-<td>Raw count matrix (genes × samples)</td>
-</tr>
-<tr>
-<td><code>data</code></td>
-<td>matrix</td>
-<td>Normalized data matrix (genes × samples)</td>
-</tr>
-<tr>
-<td><code>metadata</code></td>
-<td>data.frame</td>
-<td>Sample metadata with sample names as rownames</td>
-</tr>
-<tr>
-<td><code>allDiff</code></td>
-<td>list</td>
-<td>Differential analysis results from multiple methods</td>
-</tr>
-<tr>
-<td><code>geneSet</code></td>
-<td>list</td>
-<td>Gene sets for GSEA/GSVA analysis</td>
-</tr>
-<tr>
-<td><code>gsea</code></td>
-<td>list</td>
-<td>GSEA analysis results</td>
-</tr>
-<tr>
-<td><code>gsva</code></td>
-<td>list</td>
-<td>GSVA analysis results</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="available-methods">Available Methods<a class="anchor" aria-label="anchor" href="#available-methods"></a>
-</h3>
-<table class="table">
-<thead><tr>
-<th>Method</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr>
-<td><code><a href="https://rdrr.io/r/methods/show.html" class="external-link">show()</a></code></td>
-<td>Display object summary</td>
-</tr>
-<tr>
-<td><code><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim()</a></code></td>
-<td>Get matrix dimensions</td>
-</tr>
-<tr>
-<td>
-<code><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames()</a></code>, <code><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames()</a></code>
-</td>
-<td>Get row and column names</td>
-</tr>
-<tr>
-<td><code>$</code></td>
-<td>Access metadata columns</td>
-</tr>
-<tr>
-<td><code>[</code></td>
-<td>Subset objects</td>
-</tr>
-<tr>
-<td><code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code></td>
-<td>Detailed summary information</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="data-access-functions">Data Access Functions<a class="anchor" aria-label="anchor" href="#data-access-functions"></a>
-</h3>
-<table class="table">
-<thead><tr>
-<th>Function</th>
-<th>Purpose</th>
-</tr></thead>
-<tbody>
-<tr>
-<td><code>getCounts(obj)</code></td>
-<td>Get raw count matrix</td>
-</tr>
-<tr>
-<td><code>getData(obj)</code></td>
-<td>Get normalized data matrix</td>
-</tr>
-<tr>
-<td><code>getMetadata(obj)</code></td>
-<td>Get sample metadata</td>
-</tr>
-<tr>
-<td><code>getDiffResults(obj)</code></td>
-<td>Get differential analysis results</td>
-</tr>
-<tr>
-<td><code>getGeneSets(obj)</code></td>
-<td>Get gene sets</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="section level2">
-<h2 id="chart_with_upwards_trend-visualization-gallery">📈 Visualization Gallery<a class="anchor" aria-label="anchor" href="#chart_with_upwards_trend-visualization-gallery"></a>
-</h2>
-<p>The package includes comprehensive visualization capabilities:</p>
-<div class="section level3">
-<h3 id="expression-visualization">Expression Visualization<a class="anchor" aria-label="anchor" href="#expression-visualization"></a>
-</h3>
-<ul>
-<li>
-<strong>Bar/Box plots</strong>: Compare gene expression between groups</li>
-<li>
-<strong>Heatmaps</strong>: Visualize expression patterns across samples and genes</li>
-<li>
-<strong>Violin plots</strong>: Show expression distributions</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="differential-expression-plots">Differential Expression Plots<a class="anchor" aria-label="anchor" href="#differential-expression-plots"></a>
-</h3>
-<ul>
-<li>
-<strong>Volcano plots</strong>: Visualize fold change vs significance</li>
-<li>
-<strong>MA plots</strong>: Show average expression vs fold change</li>
-<li>
-<strong>Heatmaps</strong>: Display differential gene expression patterns</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="sample-relationship-plots">Sample Relationship Plots<a class="anchor" aria-label="anchor" href="#sample-relationship-plots"></a>
-</h3>
-<ul>
-<li>
-<strong>PCA plots</strong>: Principal component analysis with group information</li>
-<li>
-<strong>Hierarchical clustering</strong>: Sample clustering dendrograms</li>
-<li>
-<strong>Sample correlation</strong>: Correlation heatmaps</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="gene-set-analysis-plots">Gene Set Analysis Plots<a class="anchor" aria-label="anchor" href="#gene-set-analysis-plots"></a>
-</h3>
-<ul>
-<li>
-<strong>Pathway scores</strong>: Bar plots of GSVA pathway activities</li>
-<li>
-<strong>Enrichment plots</strong>: GSEA enrichment curves</li>
-<li>
-<strong>Network plots</strong>: Gene set interaction networks</li>
-</ul>
-</div>
-</div>
-<div class="section level2">
-<h2 id="books-example-datasets">📚 Example Datasets<a class="anchor" aria-label="anchor" href="#books-example-datasets"></a>
-</h2>
-<p>The package includes carefully curated example datasets:</p>
-<table class="table">
-<thead><tr>
-<th>Dataset</th>
-<th>Description</th>
-<th>Dimensions</th>
-</tr></thead>
-<tbody>
-<tr>
-<td><code>counts</code></td>
-<td>RNA-seq count matrix</td>
-<td>500 genes × 6 samples</td>
-</tr>
-<tr>
-<td><code>metadata</code></td>
-<td>Sample metadata</td>
-<td>6 samples × 2 variables</td>
-</tr>
-<tr>
-<td><code>geneSet_msig</code></td>
-<td>MSigDB gene sets</td>
-<td>6 collections, 18,459 sets</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Explore example data structure</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span>                    <span class="co"># [1] 500   6</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span>                  <span class="co"># [1] "matrix" "array"</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">metadata</span><span class="op">)</span></span>
-<span><span class="co"># 'data.frame': 6 obs. of 2 variables:</span></span>
-<span><span class="co">#  $ sample: chr [1:6] "Cov1" "Cov2" "Cov3" "Mock1" ...</span></span>
-<span><span class="co">#  $ group : Factor w/ 2 levels "con","treat": 2 2 2 1 1 1</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">geneSet_msig</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">geneSet_msig</span><span class="op">)</span>           <span class="co"># Gene set collections</span></span>
-<span><span class="co"># [1] "hallmark" "kegg"     "reactome" "go_bp"    "go_cc"    "go_mf"</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="bulb-best-practices">💡 Best Practices<a class="anchor" aria-label="anchor" href="#bulb-best-practices"></a>
-</h2>
-<div class="section level3">
-<h3 id="data-preparation">Data Preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
-</h3>
-<ol style="list-style-type: decimal">
-<li>
-<strong>Data Consistency</strong>: Ensure count matrix column names match metadata row names</li>
-<li>
-<strong>Gene Names</strong>: Use standard gene symbols (HGNC) as row names</li>
-<li>
-<strong>Metadata</strong>: Include all relevant experimental design information</li>
-<li>
-<strong>Quality Control</strong>: Remove low-count genes and check for batch effects</li>
-</ol>
-</div>
-<div class="section level3">
-<h3 id="analysis-workflow">Analysis Workflow<a class="anchor" aria-label="anchor" href="#analysis-workflow"></a>
-</h3>
-<ol style="list-style-type: decimal">
-<li>
-<strong>Normalization</strong>: Properly normalize data before analysis (log2, TPM, or method-specific)</li>
-<li>
-<strong>Multiple Methods</strong>: Compare results from different DE methods</li>
-<li>
-<strong>Statistical Thresholds</strong>: Use appropriate p-value and fold-change cutoffs</li>
-<li>
-<strong>Gene Set Analysis</strong>: Validate findings with pathway analysis</li>
-</ol>
-</div>
-<div class="section level3">
-<h3 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
-</h3>
-<ol style="list-style-type: decimal">
-<li>
-<strong>Consistent Colors</strong>: Use consistent color schemes across plots</li>
-<li>
-<strong>Clear Labels</strong>: Include meaningful titles and axis labels</li>
-<li>
-<strong>Statistical Annotation</strong>: Add p-values and effect sizes where appropriate</li>
-<li>
-<strong>Publication Quality</strong>: Use high-resolution formats for final figures</li>
-</ol>
-</div>
-</div>
-<div class="section level2">
-<h2 id="wrench-advanced-usage">🔧 Advanced Usage<a class="anchor" aria-label="anchor" href="#wrench-advanced-usage"></a>
-</h2>
-<div class="section level3">
-<h3 id="custom-gene-sets">Custom Gene Sets<a class="anchor" aria-label="anchor" href="#custom-gene-sets"></a>
-</h3>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Create custom gene set</span></span>
-<span><span class="va">custom_geneset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  <span class="st">"DNA_REPAIR"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BRCA1"</span>, <span class="st">"BRCA2"</span>, <span class="st">"ATM"</span>, <span class="st">"TP53"</span><span class="op">)</span>,</span>
-<span>  <span class="st">"CELL_CYCLE"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CCND1"</span>, <span class="st">"CDK4"</span>, <span class="st">"RB1"</span>, <span class="st">"E2F1"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Run GSVA analysis -- add gsva results and diff results of gsva results</span></span>
+<span><span class="va">bulk_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gsva.html">gsva</a></span><span class="op">(</span><span class="va">bulk_obj</span>, geneSet_name <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Add to BulkRNAseq object</span></span>
-<span><span class="va">bulk_obj</span><span class="op">@</span><span class="va">geneSet</span><span class="op">$</span><span class="va">custom</span> <span class="op">&lt;-</span> <span class="va">custom_geneset</span></span>
+<span><span class="co"># # Run GSVA analysis with common used genesets</span></span>
+<span><span class="co"># bulk_obj &lt;- gsva(bulk_obj, geneSet_name = c("H", "C2_CP:KEGG_LEGACY", "C5_GO:BP", "C5_GO:CC", "C5_GO:MF") )</span></span>
 <span></span>
-<span><span class="co"># Run GSVA with custom gene sets</span></span>
-<span><span class="va">bulk_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gsva.html">gsva</a></span><span class="op">(</span><span class="va">bulk_obj</span>, gene_sets <span class="op">=</span> <span class="st">"custom"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="batch-processing">Batch Processing<a class="anchor" aria-label="anchor" href="#batch-processing"></a>
-</h3>
+<span><span class="co"># View bulk_obj--gsva results add to gsva slot</span></span>
+<span><span class="va">bulk_obj</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  ====== BulkRNAseq Object ====== </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Genes:          36888</span></span>
+<span><span class="co">#&gt; Samples:        6</span></span>
+<span><span class="co">#&gt; Metadata vars:  sample, group</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  ------ Analysis Results ------ </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Diff analyses:  2: DESeq2_treat_vs_con, H</span></span>
+<span><span class="co">#&gt; Gene sets:      25: C1, C2_CGP, C2_CP, C2_CP:BIOCARTA, C2_CP:KEGG_LEGACY, C2_CP:KEGG_MEDICUS, C2_CP:PID, C2_CP:REACTOME, C2_CP:WIKIPATHWAYS, C3_MIR:MIRDB, C3_MIR:MIR_LEGACY, C3_TFT:GTRD, C3_TFT:TFT_LEGACY, C4_3CA, C4_CGN, C4_CM, C5_GO:BP, C5_GO:CC, C5_GO:MF, C5_HPO, C6, C7_IMMUNESIGDB, C7_VAX, C8, H</span></span>
+<span><span class="co">#&gt; GSEA results:   1: H</span></span>
+<span><span class="co">#&gt; GSVA results:   1: H</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  --------------------------------------------------</span></span>
+<span><span class="co"># head(bulk_obj@gsva$H)</span></span>
+<span></span>
+<span><span class="co"># Visualize GSVA results</span></span>
+<span><span class="co"># Bar plot</span></span>
+<span><span class="fu"><a href="reference/bar.html">bar</a></span><span class="op">(</span><span class="va">bulk_obj</span>, genes <span class="op">=</span> <span class="st">"HALLMARK_INFLAMMATORY_RESPONSE"</span>, data <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tools/README-gsva-analysis-1.png"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Process multiple contrasts</span></span>
-<span><span class="va">contrasts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  <span class="st">"TreatmentA_vs_Control"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TreatmentA"</span>, <span class="st">"Control"</span><span class="op">)</span>,</span>
-<span>  <span class="st">"TreatmentB_vs_Control"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TreatmentB"</span>, <span class="st">"Control"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">results_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">contrasts</span>, <span class="kw">function</span><span class="op">(</span><span class="va">contrast</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="co"># Subset data for specific contrast</span></span>
-<span>  <span class="va">subset_meta</span> <span class="op">&lt;-</span> <span class="va">metadata</span><span class="op">[</span><span class="va">metadata</span><span class="op">$</span><span class="va">group</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">contrast</span>, <span class="op">]</span></span>
-<span>  <span class="va">subset_counts</span> <span class="op">&lt;-</span> <span class="va">counts</span><span class="op">[</span>, <span class="va">subset_meta</span><span class="op">$</span><span class="va">sample</span><span class="op">]</span></span>
-<span>  </span>
-<span>  <span class="co"># Create object and analyze</span></span>
-<span>  <span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/BulkRNAseq.html">BulkRNAseq</a></span><span class="op">(</span><span class="va">subset_counts</span>, <span class="va">subset_meta</span><span class="op">)</span></span>
-<span>  <span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/runDiffAnalysis.html">runDiffAnalysis</a></span><span class="op">(</span><span class="va">obj</span>, group_col <span class="op">=</span> <span class="st">"group"</span>, methods <span class="op">=</span> <span class="st">"DESeq2"</span><span class="op">)</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Heatmap</span></span>
+<span><span class="fu"><a href="reference/hmap.html">hmap</a></span><span class="op">(</span><span class="va">bulk_obj</span>, data <span class="op">=</span> <span class="st">"H"</span>, genes <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tools/README-gsva-analysis-2.png"></p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Volcano plot</span></span>
+<span><span class="fu"><a href="reference/volcano.html">volcano</a></span><span class="op">(</span><span class="va">bulk_obj</span>, data <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tools/README-gsva-analysis-3.png"></p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># MA plot</span></span>
+<span><span class="fu"><a href="reference/MA.html">MA</a></span><span class="op">(</span><span class="va">bulk_obj</span>, data <span class="op">=</span> <span class="st">"H"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tools/README-gsva-analysis-4.png"></p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="clipboard-dependencies">📋 Dependencies<a class="anchor" aria-label="anchor" href="#clipboard-dependencies"></a>
+<h2 id="books-documentation">📚 Documentation<a class="anchor" aria-label="anchor" href="#books-documentation"></a>
 </h2>
-<div class="section level3">
-<h3 id="required-packages">Required Packages<a class="anchor" aria-label="anchor" href="#required-packages"></a>
-</h3>
+<p>For detailed tutorials and examples, please visit our <a href="https://hui950319.github.io/BulkS4/">documentation website</a>:</p>
 <ul>
-<li>R (≥ 4.0.0)</li>
-<li>methods, cli</li>
-<li>GSVA, clusterProfiler, limma</li>
-<li>dplyr, tidyr, ggplot2</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="suggested-packages">Suggested Packages<a class="anchor" aria-label="anchor" href="#suggested-packages"></a>
-</h3>
-<ul>
-<li>DESeq2, edgeR, biomaRt</li>
-<li>SummarizedExperiment</li>
-<li>org.Hs.eg.db, msigdbr</li>
-<li>pheatmap, ggpubr, viridis</li>
-<li>factoextra, ggsci, patchwork</li>
-</ul>
-</div>
-</div>
-<div class="section level2">
-<h2 id="open_book-documentation">📖 Documentation<a class="anchor" aria-label="anchor" href="#open_book-documentation"></a>
-</h2>
-<ul>
-<li>
-<strong>Package Website</strong>: <a href="https://hui950319.github.io/BulkS4/" class="uri">https://hui950319.github.io/BulkS4/</a>
-</li>
-<li>
-<strong>Getting Started</strong>: <a href="https://hui950319.github.io/BulkS4/articles/getting-started.html">Vignette</a>
-</li>
-<li>
-<strong>Differential Analysis</strong>: <a href="https://hui950319.github.io/BulkS4/articles/differential-analysis.html">Tutorial</a>
-</li>
-<li>
-<strong>Visualization Guide</strong>: <a href="https://hui950319.github.io/BulkS4/articles/visualization.html">Examples</a>
-</li>
+<li><a href="https://hui950319.github.io/BulkS4/articles/getting-started.html">Getting Started Guide</a></li>
+<li><a href="https://hui950319.github.io/BulkS4/articles/differential-analysis.html">Differential Expression Analysis</a></li>
+<li><a href="https://hui950319.github.io/BulkS4/articles/visualization.html">Visualization Tutorial</a></li>
+<li><a href="https://hui950319.github.io/BulkS4/reference/index.html">Function Reference</a></li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="handshake-contributing">🤝 Contributing<a class="anchor" aria-label="anchor" href="#handshake-contributing"></a>
 </h2>
-<p>We welcome contributions! Please see our <a href="CONTRIBUTING.html">contributing guidelines</a> for details.</p>
-<ul>
-<li>
-<strong>Bug Reports</strong>: <a href="https://github.com/HUI950319/BulkS4/issues" class="external-link">GitHub Issues</a>
-</li>
-<li>
-<strong>Feature Requests</strong>: <a href="https://github.com/HUI950319/BulkS4/discussions" class="external-link">GitHub Discussions</a>
-</li>
-<li>
-<strong>Pull Requests</strong>: <a href="https://github.com/HUI950319/BulkS4/pulls" class="external-link">GitHub PRs</a>
-</li>
-</ul>
+<p>We welcome contributions! Please see our <a href="https://github.com/HUI950319/BulkS4/blob/master/.github/CONTRIBUTING.md" class="external-link">Contributing Guidelines</a> for details.</p>
 </div>
 <div class="section level2">
 <h2 id="page_facing_up-license">📄 License<a class="anchor" aria-label="anchor" href="#page_facing_up-license"></a>
 </h2>
-<p>This project is licensed under the MIT License - see the <a href="LICENSE.html">LICENSE.md</a> file for details.</p>
+<p>This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.</p>
 </div>
 <div class="section level2">
-<h2 id="pray-citation">🙏 Citation<a class="anchor" aria-label="anchor" href="#pray-citation"></a>
+<h2 id="telephone_receiver-contact">📞 Contact<a class="anchor" aria-label="anchor" href="#telephone_receiver-contact"></a>
+</h2>
+<ul>
+<li>
+<strong>Author</strong>: Hui Ouyang</li>
+<li>
+<strong>Email</strong>: [<a href="mailto:your-email@example.com" class="email">your-email@example.com</a>]</li>
+<li>
+<strong>GitHub</strong>: <a href="https://github.com/HUI950319" class="external-link">@HUI950319</a>
+</li>
+<li>
+<strong>Issues</strong>: <a href="https://github.com/HUI950319/BulkS4/issues" class="external-link">GitHub Issues</a>
+</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="open_book-citation">📖 Citation<a class="anchor" aria-label="anchor" href="#open_book-citation"></a>
 </h2>
 <p>If you use BulkS4 in your research, please cite:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"BulkS4"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="pencil-changelog">📝 Changelog<a class="anchor" aria-label="anchor" href="#pencil-changelog"></a>
-</h2>
-<div class="section level3">
-<h3 id="v011-current">v0.1.1 (Current)<a class="anchor" aria-label="anchor" href="#v011-current"></a>
-</h3>
-<ul>
-<li>✨ Added comprehensive visualization functions (<code>bar</code>, <code>hmap</code>, <code>volcano</code>, <code>MA</code>, <code>pca_hc</code>)</li>
-<li>🧬 Enhanced differential expression analysis with method comparison</li>
-<li>🎯 Integrated GSEA and GSVA functionality</li>
-<li>📊 Improved S4 class with additional slots and validation</li>
-<li>📚 Added comprehensive documentation and vignettes</li>
-<li>🔧 Enhanced data validation and error handling</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="v010">v0.1.0<a class="anchor" aria-label="anchor" href="#v010"></a>
-</h3>
-<ul>
-<li>🎉 Initial release</li>
-<li>📦 Basic BulkRNAseq S4 class</li>
-<li>🛠️ Core methods and utility functions</li>
-<li>🗂️ MSigDB gene set integration</li>
-</ul>
-<hr>
-<div align="center">
-<p><strong>Built with ❤️ for the R community</strong><br><a href="https://hui950319.github.io/BulkS4/">📖 Documentation</a> • <a href="https://github.com/HUI950319/BulkS4/issues" class="external-link">🐛 Report Bug</a> • <a href="https://github.com/HUI950319/BulkS4/discussions" class="external-link">💬 Discussion</a></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>Ouyang, <span class="fu">H.</span> (<span class="dv">2024</span>). BulkS4<span class="sc">:</span> S4 Classes <span class="cf">for</span> Bulk RNA<span class="sc">-</span>seq Data Analysis. </span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>R package version <span class="dv">0</span>.<span class="dv">1</span>.<span class="fl">1.</span> https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>HUI950319<span class="sc">/</span>BulkS4</span></code></pre></div>
 </div>
 </div>
-</div>
-</div>
+
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">

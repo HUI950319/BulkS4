@@ -66,6 +66,8 @@ bar(bulk_obj,
     method = "wilcox.test")
 ```
 
+
+
 ### Multiple Genes Visualization
 
 ```{r eval=FALSE}

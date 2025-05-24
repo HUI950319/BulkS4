@@ -236,9 +236,6 @@ setMethod("hmap", "BulkRNAseq", function(object,
 # Internal function to get top differential genes
 .get_top_diff_genes <- function(object, data, n_genes) {
   if (data == "data") {
-    if (length(object@allDiff) == 0 || is.null(object@allDiff[[1]])) {
-      stop("No differential analysis results found. Run differential analysis first.", call. = FALSE)
-    }
     diff_data <- object@allDiff[[1]]
     expr_matrix <- object@data
   } else if (data %in% names(object@gsva)) {
