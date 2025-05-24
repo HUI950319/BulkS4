@@ -161,7 +161,7 @@ hmap(bulk_obj, genes = selected_genes)
 
 # Heatmap of top 20 DEGs
 bulk_obj <- runDiffAnalysis(bulk_obj, method = "DESeq2")
-hmap(bulk_obj, genes = 20)
+hmap(bulk_obj, genes = 10)
 ```
 
 ![](tools/README-heatmap-2.png)
@@ -319,7 +319,7 @@ This project is licensed under the MIT License - see the
 ## 📞 Contact
 
 - **Author**: Hui Ouyang
-- **Email**: \[<your-email@example.com>\]
+- **Email**: \[<ouyanghui950913@gmail.com>\]
 - **GitHub**: [@HUI950319](https://github.com/HUI950319)
 - **Issues**: [GitHub
   Issues](https://github.com/HUI950319/BulkS4/issues)
@@ -328,5 +328,5 @@ This project is licensed under the MIT License - see the
 
 If you use BulkS4 in your research, please cite:
 
-    Ouyang, H. (2024). BulkS4: S4 Classes for Bulk RNA-seq Data Analysis. 
+    Ouyang, H. (2025). BulkS4: S4 Classes for Bulk RNA-seq Data Analysis. 
     R package version 0.1.1. https://github.com/HUI950319/BulkS4
