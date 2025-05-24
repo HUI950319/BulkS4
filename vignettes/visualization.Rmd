@@ -56,12 +56,12 @@ bulk_obj <- setData(bulk_obj, log_counts)
 
 ```{r eval=FALSE}
 # Basic box plot for a single gene
-bar(bulk_obj, genes = "CD36", group = "condition")
+bar(bulk_obj, genes = "CD36", group = "group")
 
 # Custom colors and statistical test
 bar(bulk_obj, 
     genes = "CD36", 
-    group = "condition",
+    group = "group",
     palette = c("#E31A1C", "#1F78B4"),
     method = "wilcox.test")
 ```
